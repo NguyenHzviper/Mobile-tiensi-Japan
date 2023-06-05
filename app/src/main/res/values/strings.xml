@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MobileVN</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Mật khẩu</string>
+    <string name="login_repassword_hint">Nhập lại mật khẩu</string>
+    <string name="tvDSSP">Sản phẩm mới 2022</string>
+    <string name="recoverypassword">Khôi phục mật khẩu</string>
+    <string name="tv_email_recovery">Nhập email tài khoản của bạn</string>
+    <string name="tv_sdt_recovery">Nhập số điện thoại của bạn</string>
+    <string name="tv_ttgh">Mời nhập thông tin giao hàng</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

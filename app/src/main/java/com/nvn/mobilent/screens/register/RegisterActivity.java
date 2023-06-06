@@ -307,11 +307,11 @@ public class RegisterActivity extends AppCompatActivity {
         DocumentReference userRef = firestore.collection("users").document(userId);
         Map<String, Object> userData = new HashMap<>();
         userData.put("email", register.getEmail());
-        userData.put("firstName", register.getFirstname());
-        userData.put("lastName", register.getLastname());
+        userData.put("firstname", register.getFirstname());
+        userData.put("lastname", register.getLastname());
         userData.put("address", register.getAddress());
         userData.put("phone", register.getPhone());
-        userData.put("gender", register.getSex());
+        userData.put("gender", register.getGender());
         userData.put("birthday", register.getBirthday());
 
         userRef.set(userData);
@@ -348,6 +348,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             // User creation success
                                             FirebaseUser user = auth.getCurrentUser();
+
                                             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                             saveUserData(register, userId);
                                             AppUtils.showToast_Short(getApplicationContext(), "Đăng ký thành công!");

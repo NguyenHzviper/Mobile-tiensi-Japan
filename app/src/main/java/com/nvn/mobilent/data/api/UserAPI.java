@@ -36,7 +36,7 @@ public interface UserAPI {
             @Field("password") String password,
             @Field("address") String address,
             @Field("phone") String phone,
-            @Field("sex") int sex,
+            @Field("gender") int gender,
             @Field("birthday") String birthday
     );
 
@@ -49,7 +49,7 @@ public interface UserAPI {
             @Field("lastname") String lastname,
             @Field("address") String address,
             @Field("phone") String phone,
-            @Field("sex") int sex,
+            @Field("gender") int gender,
             @Field("birthday") String birthday
     );
 

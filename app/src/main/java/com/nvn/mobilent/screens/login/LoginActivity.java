@@ -24,16 +24,10 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.forgot.ForgotPasswordActivity;
 import com.nvn.mobilent.MainActivity;
 import com.nvn.mobilent.screens.register.RegisterActivity;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
-import com.nvn.mobilent.data.model.user.RLogin;
+
 import com.nvn.mobilent.data.model.user.User;
 import com.nvn.mobilent.data.api.UserAPI;
 import com.nvn.mobilent.utils.AppUtils;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 import com.google.firebase.auth.AuthResult;
@@ -42,10 +36,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     Button btnLogin;
-    UserAPI userAPI;
     TextView tv_ForgotPass;
     private TextInputLayout textInputLayoutEmail;
     private TextInputLayout textInputLayoutPassword;
@@ -99,7 +94,9 @@ public class LoginActivity extends AppCompatActivity {
                                                         if (documentSnapshot.exists()) {
                                                             // User data found
                                                             User user = documentSnapshot.toObject(User.class);
-                                                            System.out.println(user);
+                                                            assert user != null;
+                                                            System.out.println("Name: " + user.getFirstname());
+                                                            System.out.println("Email: " + user.getEmail());
                                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                                             intent.putExtra("user", user);
                                                             startActivity(intent);

@@ -136,13 +136,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
                         user.setLastname(info.getLastname());
                         user.setAddress(info.getAddress());
                         user.setPhone(info.getPhone());
-                        user.setSex(info.getSex());
+                        user.setGender(info.getGender());
                         user.setBirthday(info.getBirthday());
                         DataLocalManager.setUser(user);
 
                         userAPI.changeInfo(info.getId(), info.getEmail(),
                                 info.getFirstname(), info.getLastname(),
-                                info.getAddress(), info.getPhone(), info.getSex(),
+                                info.getAddress(), info.getPhone(), info.getGender(),
                                 convertDateDB(info.getBirthday())).enqueue(new Callback<RLogin>() {
                             @Override
                             public void onResponse(Call<RLogin> call, Response<RLogin> response) {
@@ -169,7 +169,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         address.setText(user.getAddress());
         phone.setText(user.getPhone());
         email.setText(user.getEmail());
-        if (user.getSex() == 0) {
+        if (user.getGender() == 0) {
             rb1.setChecked(true);
             rb2.setChecked(false);
         } else {

@@ -25,9 +25,9 @@ public class User implements Serializable {
     @SerializedName("phone")
     @Expose
     private String phone;
-    @SerializedName("sex")
+    @SerializedName("gender")
     @Expose
-    private Integer sex;
+    private Integer gender;
     @SerializedName("birthday")
     @Expose
     private String birthday;
@@ -89,12 +89,12 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Integer getSex() {
-        return sex;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setSex(Integer sex) {
-        this.sex = sex;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     public String getBirthday() {

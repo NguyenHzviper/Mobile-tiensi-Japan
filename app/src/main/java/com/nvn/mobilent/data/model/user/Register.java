@@ -25,21 +25,21 @@ public class Register implements Serializable {
     @SerializedName("phone")
     @Expose
     private String phone;
-    @SerializedName("sex")
+    @SerializedName("gender")
     @Expose
-    private Integer sex;
+    private Integer gender;
     @SerializedName("birthday")
     @Expose
     private String birthday;
 
-    public Register(String email, String firstname, String lastname, String password, String address, String phone, Integer sex, String birthday) {
+    public Register(String email, String firstname, String lastname, String password, String address, String phone, Integer gender, String birthday) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
         this.address = address;
         this.phone = phone;
-        this.sex = sex;
+        this.gender = gender;
         this.birthday = birthday;
     }
 
@@ -91,12 +91,12 @@ public class Register implements Serializable {
         this.phone = phone;
     }
 
-    public Integer getSex() {
-        return sex;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setSex(Integer sex) {
-        this.sex = sex;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     public String getBirthday() {

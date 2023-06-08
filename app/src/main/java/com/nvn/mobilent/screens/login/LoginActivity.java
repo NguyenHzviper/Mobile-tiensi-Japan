@@ -95,8 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                                                             // User data found
                                                             User user = documentSnapshot.toObject(User.class);
                                                             assert user != null;
-                                                            System.out.println("Name: " + user.getFirstname());
-                                                            System.out.println("Email: " + user.getEmail());
                                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                                             intent.putExtra("user", user);
                                                             startActivity(intent);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -26,7 +28,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.login.LoginActivity;
 import com.nvn.mobilent.screens.orders.OrderActivity;
@@ -50,6 +61,7 @@ public class SettingFragment extends Fragment {
     private static final int PERMISSION_CODE = 1001;
     FloatingActionButton btnEditImage;
     ImageView avt;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public SettingFragment() {
@@ -62,8 +74,39 @@ public class SettingFragment extends Fragment {
         return fragment;
     }
 
+    public void updateAvatar(){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String userId  = firebaseAuth.getCurrentUser().getUid();
+        DocumentReference userRef = db.collection("users").document(userId);
+
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String avatarUrl = document.getString("avatarUrl");
+                        if (avatarUrl != null) {
+                            Picasso.get().load(avatarUrl)
+                                    .into(avt);
+                        } else {
+                            Picasso.get().load(DataLocalManager.getUriImage())
+                                    .into(avt);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "User not found!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Error occurred while retrieving the data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
+        updateAvatar();
         super.onCreate(savedInstanceState);
     }
 
@@ -84,10 +127,7 @@ public class SettingFragment extends Fragment {
         System.out.println("onResume");
         user = DataLocalManager.getUser();
         welcome.setText(user.getLastname() + " " + user.getFirstname());
-        if (DataLocalManager.getUriImage() != null) {
-            Picasso.get().load(DataLocalManager.getUriImage())
-                    .into(avt);
-        }
+
         super.onResume();
     }
 
@@ -127,20 +167,53 @@ public class SettingFragment extends Fragment {
             }
 
         });
+
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), (activityResult) -> {
-                    Log.e("MY_TAG", "activityResult");
                     if (activityResult.getResultCode() == RESULT_OK) {
                         Intent dataIntent = activityResult.getData();
                         if (dataIntent != null) {
-                            Picasso.get().load(dataIntent.getData())
-                                    .into(avt);
-                            String path = AppUtils.getRealPathFromURI(getContext(), dataIntent.getData());
-                            DataLocalManager.setUriImage(dataIntent.getData());
+                            Uri imageUri = dataIntent.getData();
+                            Picasso.get().load(imageUri).into(avt);
+                            uploadAvatar(imageUri);
                         }
                     }
                 }
         );
+    }
+
+    private void uploadAvatar(Uri imageUri) {
+        if (imageUri != null) {
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference avatarRef = storageRef.child("avatars").child(userId + ".jpg");
+
+            avatarRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Image uploaded successfully, retrieve the download URL
+                        avatarRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // Update the user's avatar URL in Firebase Firestore or Realtime Database
+                            // For example, if using Firestore:
+                            FirebaseFirestore.getInstance()
+                                    .collection("users")
+                                    .document(userId)
+                                    .update("avatarUrl", uri.toString())
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Avatar URL updated successfully
+                                        // làm thinh, làm mình làm mẫy  :))
+
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Handle the failure
+                                        Toast.makeText(getContext(), "Failed to update avatar", Toast.LENGTH_SHORT).show();
+                                    });
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle the failure
+                        Toast.makeText(getContext(), "Failed to upload avatar", Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
 
     private void openConfirmDialog() {
@@ -166,6 +239,7 @@ public class SettingFragment extends Fragment {
             btnDongY.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                 }

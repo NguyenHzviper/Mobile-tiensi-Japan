@@ -10,16 +10,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.user.Info;
-import com.nvn.mobilent.data.model.user.RLogin;
 import com.nvn.mobilent.data.model.user.User;
 import com.nvn.mobilent.data.api.UserAPI;
 import com.nvn.mobilent.utils.AppUtils;
@@ -28,10 +31,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChangeInfoActivity extends AppCompatActivity {
     EditText firstName, lastName, birthday, address, phone, email;
@@ -39,7 +41,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
     Button btnChangeInfo;
     Toolbar toolbar;
 
-    UserAPI userAPI;
     private TextInputLayout textInputLayoutFirstName;
     private TextInputLayout textInputLayoutLastName;
     private TextInputLayout textInputLayoutBirthDay;
@@ -109,6 +110,49 @@ public class ChangeInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void updateUser(User info){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String collectionPath = "users";
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        Map<String, Object> updatedFields = new HashMap<>();
+        updatedFields.put("email", info.getEmail());
+        updatedFields.put("firstname", info.getFirstname());
+        updatedFields.put("lastname", info.getLastname());
+        updatedFields.put("address", info.getAddress());
+        updatedFields.put("phone", info.getPhone());
+        updatedFields.put("gender", info.getGender());
+        updatedFields.put("birthday", info.getBirthday());
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            db.collection(collectionPath)
+                    .document(userId)
+                    .update(updatedFields)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Update successful
+                            // Perform any desired actions after updating the document
+                            AppUtils.showToast_Short(getApplicationContext(), "Cập nhật thông tin thành công!");
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Update failed
+                            // Handle the failure case
+                            AppUtils.showToast_Short(getApplicationContext(), "Lỗi cập nhật thông tin rồi");
+                        }
+                    });
+
+
+        }
+
+    }
+
     private void setEvent() {
 
         btnChangeInfo.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +170,8 @@ public class ChangeInfoActivity extends AppCompatActivity {
                             gender,
                             birthday.getText().toString().trim()
                     );
-                    System.out.println(info.toString());
-                    userAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(UserAPI.class);
+
+
                     if (!AppUtils.haveNetworkConnection(getApplicationContext())) {
                         AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
                     } else {
@@ -140,21 +184,8 @@ public class ChangeInfoActivity extends AppCompatActivity {
                         user.setBirthday(info.getBirthday());
                         DataLocalManager.setUser(user);
 
-                        userAPI.changeInfo(info.getId(), info.getEmail(),
-                                info.getFirstname(), info.getLastname(),
-                                info.getAddress(), info.getPhone(), info.getGender(),
-                                convertDateDB(info.getBirthday())).enqueue(new Callback<RLogin>() {
-                            @Override
-                            public void onResponse(Call<RLogin> call, Response<RLogin> response) {
-                                AppUtils.showToast_Short(getApplicationContext(), "Cập nhật thông tin thành công!");
-                                finish();
-                            }
+                        updateUser(user);
 
-                            @Override
-                            public void onFailure(Call<RLogin> call, Throwable t) {
-                                AppUtils.showToast_Short(getApplicationContext(), "Lỗi cập nhật thông tin rồi");
-                            }
-                        });
                         loadDefault();
                     }
                 }

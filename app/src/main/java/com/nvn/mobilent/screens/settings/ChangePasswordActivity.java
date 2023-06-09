@@ -5,10 +5,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.base.PathAPI;
 import com.nvn.mobilent.data.base.RetrofitClient;
@@ -56,6 +63,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private void setEvent() {
         userAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(UserAPI.class);
+
         if (!AppUtils.haveNetworkConnection(getApplicationContext())) {
             AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
         } else {
@@ -63,24 +71,45 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (checkData()) {
-                        userAPI.changePassword(user.getEmail(), oldPass.getText().toString().trim(), newPass.getText().toString().trim()).enqueue(new Callback<RLogin>() {
-                            @Override
-                            public void onResponse(Call<RLogin> call, Response<RLogin> response) {
-                                if (response.body().getResult()) {
-                                    AppUtils.showToast_Short(getApplicationContext(), "Cập nhật mật khẩu thành công!");
-                                    finish();
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<RLogin> call, Throwable t) {
-                                AppUtils.showToast_Short(getApplicationContext(), "Mật khẩu hiện tại không đúng!");
-                            }
-                        });
+                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        if (firebaseUser != null) {
+                            String email = firebaseUser.getEmail();
+                            String oldPassword = oldPass.getText().toString().trim();
+                            String newPassword = newPass.getText().toString().trim();
+
+                            AuthCredential credential = EmailAuthProvider.getCredential(email, oldPassword);
+                            firebaseUser.reauthenticate(credential)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                firebaseUser.updatePassword(newPassword)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    AppUtils.showToast_Short(getApplicationContext(), "Cập nhật mật khẩu thành công!");
+                                                                    finish();
+                                                                } else {
+                                                                    AppUtils.showToast_Short(getApplicationContext(), "Có lỗi xảy ra. Vui lòng thử lại!");
+                                                                }
+                                                            }
+                                                        });
+                                            } else {
+                                                AppUtils.showToast_Short(getApplicationContext(), "Mật khẩu hiện tại không đúng!");
+                                            }
+                                        }
+                                    });
+                        } else {
+                            // User is not logged in
+                            AppUtils.showToast_Short(getApplicationContext(), "Người dùng chưa đăng nhập!");
+                        }
                     }
                 }
             });
         }
     }
+
 
     @Override
     public void onBackPressed() {

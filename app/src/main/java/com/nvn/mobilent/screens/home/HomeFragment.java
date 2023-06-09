@@ -22,7 +22,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.adapter.ProductAdapter;
 import com.nvn.mobilent.data.base.PathAPI;
@@ -37,12 +42,14 @@ import com.nvn.mobilent.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Toolbar toolbar;
     ViewFlipper viewFlipper;
@@ -132,30 +139,31 @@ public class HomeFragment extends Fragment {
     }
 
     private void getProduct() {
-        productAPI.getProduct(1, 10).enqueue(new Callback<RProduct>() {
-            @Override
-            public void onResponse(Call<RProduct> call, Response<RProduct> response) {
-                if (response.isSuccessful() && !limitData) {
-                    productArrayList = (ArrayList<Product>) response.body().getData();
-                    for (int i = 0; i < productArrayList.size(); i++) {
-                        if (productArrayList.get(i).getStatus().equals(false)) {
-                            productArrayList.remove(i);
+        db.collection("products")
+                .whereEqualTo("status", true)
+                .limit(10)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Product> productList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Product product = document.toObject(Product.class);
+                                productList.add(product);
+                            }
+                            productAdapter = new ProductAdapter(getContext(), productList);
+                            recyclerView.setHasFixedSize(true);
+                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                            recyclerView.setAdapter(productAdapter);
+                            limitData = true;
+                        } else {
+                            Log.d("Firebase", "Error getting products: ", task.getException());
                         }
                     }
-                    productAdapter = new ProductAdapter(getContext(), productArrayList);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                    recyclerView.setAdapter(productAdapter);
-                    limitData = true;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RProduct> call, Throwable t) {
-                Log.d("NVN-API", t.toString());
-            }
-        });
+                });
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -165,7 +173,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 System.out.println("HEIEI");
-                Intent intent = new Intent(getActivity(), SearchActivity.class); //CategoryFragment.this.getActivity()
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -183,14 +191,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-//        timKiem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                timKiem.setIconified(false);
-//            }
-//        });
-
-        productAPI = (ProductAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(ProductAPI.class);
         if (!AppUtils.haveNetworkConnection(getContext())) {
             AppUtils.showToast_Short(getContext(), "Kiểm tra lại kết nối Internet");
         } else {
@@ -198,6 +198,7 @@ public class HomeFragment extends Fragment {
             getProduct();
         }
     }
+
 
     @Override
     public void onDestroy() {

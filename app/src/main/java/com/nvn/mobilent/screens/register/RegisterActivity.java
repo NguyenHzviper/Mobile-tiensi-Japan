@@ -48,6 +48,7 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText firstName, lastName, birthday, address, phone, email, pass, repass;
+
     RadioButton rb1, rb2;
     Button btnRegister;
     UserAPI userAPI;

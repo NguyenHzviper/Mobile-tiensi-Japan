@@ -64,7 +64,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#EDEBEB"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <TextView
@@ -73,10 +73,11 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/roundbutton"
                     android:gravity="center"
-                    android:text="@string/tvDSSP"
+                    android:text="Sản phẩm mới nhất"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold"
+                    android:padding="15dp"></TextView>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview"
@@ -85,7 +86,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/round_corners">
+                    android:background="@drawable/round_corners"
+                    android:padding="20dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>

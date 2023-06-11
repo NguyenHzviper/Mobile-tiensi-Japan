@@ -34,7 +34,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="MobileVN\n2022"
+                    android:text="Homely"
                     android:textColor="#00897B" />
 
                 <ImageView
@@ -54,9 +54,9 @@
                     android:id="@+id/loginemail"
                     style="@style/modifiedEditText"
                     android:drawableLeft="@drawable/ic_baseline_email"
+                    android:drawablePadding="10dp"
                     android:hint="@string/login_email_hint"
                     android:inputType="textEmailAddress"
-                    android:drawablePadding="10dp"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,8 +69,8 @@
                     android:id="@+id/loginpassword"
                     style="@style/modifiedEditText"
                     android:drawableLeft="@drawable/ic_baseline_password"
-                    android:hint="@string/login_password_hint"
                     android:drawablePadding="10dp"
+                    android:hint="@string/login_password_hint"
                     android:inputType="textPassword"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -94,15 +94,17 @@
                 android:text="Đăng nhập"
                 android:textColor="@color/whiteTextColor" />
 
-            <TextView
-                style="@style/parent"
+            <Button
+                android:id="@+id/btnlogin2"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/loginViewsMargin"
+                android:background="@drawable/btn_bg_secondary_design"
+                android:text="Đăng ký"
                 android:onClick="onLoginClick"
-                android:text="Người dùng mới? Đăng ký ngay!"
-                android:textAlignment="center"
-                android:textColor="@color/themeColor"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textColor="@color/whiteTextColor" />
+
 
 
             <LinearLayout
@@ -155,6 +157,7 @@
 
         </LinearLayout>
     </ScrollView>
+<!--
 
     <View
         android:layout_width="11dp"
@@ -173,5 +176,6 @@
         android:layout_marginBottom="30dp"
         android:onClick="onLoginClick"
         android:src="@drawable/ic_add_img" />
+-->
 
 </RelativeLayout>

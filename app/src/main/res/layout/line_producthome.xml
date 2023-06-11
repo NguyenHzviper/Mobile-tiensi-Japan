@@ -6,14 +6,16 @@
     android:layout_height="256dp"
     android:layout_gravity="center"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        >
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -21,7 +23,8 @@
 
             <LinearLayout
                 style="@style/style_linear_mcv"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                >
 
                 <ImageView
                     android:id="@+id/imgProduct"
@@ -33,20 +36,28 @@
                     android:id="@+id/tvnameproduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Tên sản phẩm"
-                    android:textColor="#854B4B"
-                    android:textSize="18sp" />
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    />
 
                 <TextView
                     android:id="@+id/tvpriceproduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="2sp"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Giá sản phẩm"
-                    android:textColor="#854B4B"
+                    android:textColor="#C93545"
                     android:textSize="18sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="   "
+                    android:textSize="15dp" />
+
 
                 <TextView
                     android:id="@+id/tvz"
@@ -54,7 +65,8 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="   "
-                    android:textSize="20sp" />
+                    android:textSize="15dp"
+                    />
             </LinearLayout>
 
             <ImageView

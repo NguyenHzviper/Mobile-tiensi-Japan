@@ -56,21 +56,21 @@ public class ProductDetailActivity extends AppCompatActivity {
         setEventButton();
     }
 
-    public static void postCartItem(int prod_id, int quantity, int userid) {
-        CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
-        cartItemAPI.setNewCartItem(prod_id, quantity, userid).enqueue(new Callback<R_Cart>() {
-            @Override
-            public void onResponse(Call<R_Cart> call, Response<R_Cart> response) {
-                if (response.isSuccessful()) {
-                    AppUtils.showToast_Short(toolbar.getContext(), "Đã thêm sản phẩm vào giỏ hàng!");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<R_Cart> call, Throwable t) {
-            }
-        });
-    }
+//    public static void postCartItem(String prod_id, int quantity, int userid) {
+//        CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
+//        cartItemAPI.setNewCartItem(prod_id, quantity, userid).enqueue(new Callback<R_Cart>() {
+//            @Override
+//            public void onResponse(Call<R_Cart> call, Response<R_Cart> response) {
+//                if (response.isSuccessful()) {
+//                    AppUtils.showToast_Short(toolbar.getContext(), "Đã thêm sản phẩm vào giỏ hàng!");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<R_Cart> call, Throwable t) {
+//            }
+//        });
+//    }
 
     public static void putCartItem(int cartItem_id, int quantity) {
         CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
@@ -111,9 +111,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                             }
                         }
 
-                        if (!exist) {
-                            postCartItem(product.getId(), amount, user.getId());
-                        }
+//                        if (!exist) {
+//                            postCartItem(product.getId(), amount, user.getId());
+//                        }
                     }
 
 

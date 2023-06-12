@@ -9,7 +9,7 @@ public class Product implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -21,7 +21,7 @@ public class Product implements Serializable {
     private Integer discount;
     @SerializedName("cate_id")
     @Expose
-    private Integer cateId;
+    private String cateId;
     @SerializedName("image")
     @Expose
     private String image;
@@ -38,11 +38,11 @@ public class Product implements Serializable {
     @Expose
     private Boolean status;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -70,11 +70,11 @@ public class Product implements Serializable {
         this.discount = discount;
     }
 
-    public Integer getCateId() {
+    public String getCateId() {
         return cateId;
     }
 
-    public void setCateId(Integer cateId) {
+    public void setCateId(String cateId) {
         this.cateId = cateId;
     }
 

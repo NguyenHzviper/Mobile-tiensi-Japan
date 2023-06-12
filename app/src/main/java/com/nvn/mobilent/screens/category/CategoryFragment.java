@@ -17,6 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.cart.CartActivity;
 import com.nvn.mobilent.data.adapter.CategoryAdapter;
@@ -28,13 +34,14 @@ import com.nvn.mobilent.data.api.CategoryAPI;
 import com.nvn.mobilent.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoryFragment extends Fragment {
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     ListView listViewCategory;
     public ArrayList<Category> categoryArrayList;
     CategoryAdapter categoryAdapter;
@@ -86,39 +93,49 @@ public class CategoryFragment extends Fragment {
     }
 
     private void getCategory() {
-        categoryAPI.getCategory().enqueue(new Callback<RCategory>() {
+
+        CollectionReference categoriesRef = db.collection("categories");
+
+        categoriesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onResponse(Call<RCategory> call, Response<RCategory> response) {
-                if (response.isSuccessful()) {
-                    categoryArrayList = (ArrayList<Category>) response.body().getData();
-                    for (int i = 0; i < categoryArrayList.size(); i++) {
-                        if (categoryArrayList.get(i).getStatus().equals("false")) {
-                            categoryArrayList.remove(i);
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Category> categoryArrayList = new ArrayList<>();
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Category category = document.toObject(Category.class);
+                        category.setId(document.getId());
+                        categoryArrayList.add(category);
+                    }
+
+                    // Remove categories with status "false"
+                    Iterator<Category> iterator = categoryArrayList.iterator();
+                    while (iterator.hasNext()) {
+                        Category category = iterator.next();
+                        if (category.getStatus().equals("false")) {
+                            iterator.remove();
                         }
                     }
 
                     listViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                             if (!AppUtils.haveNetworkConnection(getContext())) {
                                 AppUtils.showToast_Short(getContext(), "Kiểm tra lại kết nối Internet");
                             } else {
-                                Intent intent = new Intent(getActivity(), CategoryActivity.class); //CategoryFragment.this.getActivity()
+                                Intent intent = new Intent(getActivity(), CategoryActivity.class);
                                 intent.putExtra("idCate", categoryArrayList.get(i).getId());
                                 intent.putExtra("nameCate", categoryArrayList.get(i).getName());
                                 startActivity(intent);
                             }
                         }
                     });
+
                     categoryAdapter = new CategoryAdapter(getContext(), categoryArrayList);
                     listViewCategory.setAdapter(categoryAdapter);
+                } else {
+                    Log.e("CategoryFetch", "Error getting categories: " + task.getException());
                 }
-            }
-
-            @Override
-            public void onFailure(Call<RCategory> call, Throwable t) {
-                Log.d("NVN-API", t.toString());
             }
         });
     }

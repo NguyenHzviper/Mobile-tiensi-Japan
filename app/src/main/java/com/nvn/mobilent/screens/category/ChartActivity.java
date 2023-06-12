@@ -1,9 +1,11 @@
 package com.nvn.mobilent.screens.category;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -15,22 +17,30 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.base.PathAPI;
 import com.nvn.mobilent.data.base.RetrofitClient;
+import com.nvn.mobilent.data.model.category.Category;
 import com.nvn.mobilent.data.model.chart.ChartCategory;
 import com.nvn.mobilent.data.model.chart.RChart;
 import com.nvn.mobilent.data.api.CategoryAPI;
 import com.nvn.mobilent.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChartActivity extends AppCompatActivity {
-
+    int sum = 0;
     BarChart barChart;
     PieChart pieChart;
     Toolbar toolbar;
@@ -63,48 +73,70 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        //Initialize array list
-        categoryAPI.getChartCategory().enqueue(new Callback<RChart>() {
-            @Override
-            public void onResponse(Call<RChart> call, Response<RChart> response) {
-                if (response.isSuccessful()){
-                    arrayList.addAll(response.body().getData());
-                    ArrayList<BarEntry> barEntries = new ArrayList<>();
-                    ArrayList<PieEntry> pieEntries = new ArrayList<>();
-                    int sum= 0;
-                    barEntries = new ArrayList<>();
-                    pieEntries = new ArrayList<>();
-                    for (int i=0;i<arrayList.size();i++){
-                        sum+= arrayList.get(i).getSoLuong();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("categories")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<DocumentSnapshot> categoryList = task.getResult().getDocuments();
+                            ArrayList<BarEntry> barEntries = new ArrayList<>();
+                            ArrayList<PieEntry> pieEntries = new ArrayList<>();
+
+                            for (DocumentSnapshot categoryDoc : categoryList) {
+                                Category category = categoryDoc.toObject(Category.class);
+                                assert category != null;
+                                 // Set the ID of the category
+                                category.setId(String.valueOf(categoryDoc.getId()));
+                                String categoryId = category.getId();
+                                System.out.println(categoryId);
+                                db.collection("products")
+                                        .whereEqualTo("cate_id", categoryId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    int productCount = task.getResult().size();
+                                                    System.out.println(productCount);
+                                                    sum += productCount;
+                                                    System.out.println(sum);
+                                                    barEntries.add(new BarEntry(barEntries.size() + 1, (productCount * 100 / sum)));
+                                                    pieEntries.add(new PieEntry(productCount * 100 / sum, category.getName()));
+
+                                                    // Update the charts when all category documents are processed
+                                                    if (barEntries.size() == categoryList.size()) {
+                                                        //Initialize bar data set
+                                                        BarDataSet barDataSet = new BarDataSet(barEntries, "Danh mục sản phẩm");
+                                                        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                                                        barDataSet.setDrawValues(false); //Hide draw value
+                                                        barChart.setData(new BarData(barDataSet));
+                                                        barChart.animateY(5000); //Set animation
+                                                        barChart.getDescription().setText("");
+
+                                                        //Initialize pie data set
+                                                        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
+                                                        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                                                        pieChart.setData(new PieData(pieDataSet));
+                                                        pieChart.animateXY(5000, 5000);
+                                                        pieChart.getDescription().setEnabled(false);
+                                                    }
+                                                } else {
+                                                    Log.d("Firebase", "Error getting products for category: " + category.getName(), task.getException());
+                                                }
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d("Firebase", "Error getting categories: ", task.getException());
+                        }
                     }
-                    for (int i=0;i<arrayList.size();i++){
-                        barEntries.add(new BarEntry(i+1, (arrayList.get(i).getSoLuong() * 100 / sum)));
-                        pieEntries.add(new PieEntry(arrayList.get(i).getSoLuong() *100 /sum, arrayList.get(i).getName()));
-                    }
-
-                    //Initialize bar data set
-                    BarDataSet barDataSet = new BarDataSet(barEntries, "Danh mục sản phẩm");
-                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                    barDataSet.setDrawValues(false); //Hide draw value
-                    barChart.setData(new BarData(barDataSet));
-                    barChart.animateY(5000); //Set animation
-                    barChart.getDescription().setText("");
-
-                    //Initialize pie data set
-                    PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
-                    pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                    pieChart.setData(new PieData(pieDataSet));
-                    pieChart.animateXY(5000, 5000);
-                    pieChart.getDescription().setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RChart> call, Throwable t) {
-
-            }
-        });
+                });
     }
+
+
+
 
     private void setControl() {
         barChart = findViewById(R.id.bar_chart);

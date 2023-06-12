@@ -150,6 +150,7 @@ public class HomeFragment extends Fragment {
                             ArrayList<Product> productList = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Product product = document.toObject(Product.class);
+                                product.setId(document.getId());
                                 productList.add(product);
                             }
                             productAdapter = new ProductAdapter(getContext(), productList);
@@ -172,7 +173,6 @@ public class HomeFragment extends Fragment {
         timKiem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("HEIEI");
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }

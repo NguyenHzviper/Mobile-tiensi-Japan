@@ -17,6 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.product.ProductDetailActivity;
 import com.nvn.mobilent.data.adapter.ItemCategoryAdapter;
@@ -28,6 +33,7 @@ import com.nvn.mobilent.data.api.ProductAPI;
 import com.nvn.mobilent.screens.cart.CartActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,10 +43,10 @@ public class CategoryActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     ListView listView;
-
-    int idCate;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String idCate;
     String nameCate;
-    int page = 1;
+    int page = 10;
 
     ItemCategoryAdapter itemCategoryAdapter;
     ArrayList<Product> productArrayList;
@@ -57,12 +63,11 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         setControl();
-        idCate = getIntent().getIntExtra("idCate", -1);
+        idCate = getIntent().getStringExtra("idCate");
         nameCate = getIntent().getStringExtra("nameCate");
         toolbar.setTitle(nameCate);
 
         actionToolBar();
-        productAPI = (ProductAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(ProductAPI.class);
         getItemCategory(idCate, page);
         getMoreItemCategory();
     }
@@ -133,33 +138,40 @@ public class CategoryActivity extends AppCompatActivity {
         });
     }
 
-    private void getItemCategory(int idCate, int page) {
-        productAPI.getProductByType(idCate, page).enqueue(new Callback<RProduct>() {
-            @Override
-            public void onResponse(Call<RProduct> call, Response<RProduct> response) {
-                if (response.isSuccessful() && response.body().getData().size() > 0) {
-                    listView.removeFooterView(footerView);
-                    ArrayList<Product> arrRes = new ArrayList();
-                    arrRes = response.body().getData();
-                    for (int i = 0; i < arrRes.size(); i++) {
-                        if (arrRes.get(i).getStatus()) {
-                            productArrayList.add(arrRes.get(i));
+    private void getItemCategory(String idCate, int page) {
+
+        System.out.println(idCate);
+        db.collection("products")
+                .whereEqualTo("cate_id", idCate)
+                .limit(page)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<Product> productList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Product product = document.toObject(Product.class);
+                                if (product.getStatus()) {
+                                    product.setId(document.getId());
+                                    productList.add(product);
+                                }
+                            }
+                            if (productList.size() > 0) {
+                                listView.removeFooterView(footerView);
+                                productArrayList.addAll(productList);
+                                itemCategoryAdapter.notifyDataSetChanged();
+                            } else {
+                                limitData = true;
+                                listView.removeFooterView(footerView);
+                            }
+                        } else {
+                            Log.d("Firebase", "Error getting items: ", task.getException());
                         }
                     }
-                    itemCategoryAdapter = new ItemCategoryAdapter(getApplicationContext(), productArrayList);
-                    listView.setAdapter(itemCategoryAdapter);
-                } else {
-                    limitData = true;
-                    listView.removeFooterView(footerView);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RProduct> call, Throwable t) {
-                Log.d("NVN-API", t.toString());
-            }
-        });
+                });
     }
+
 
     private int getIdItem() {
         return getIntent().getIntExtra("id", -1);

@@ -47,11 +47,11 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         numberOrder.setText("Đơn hàng số " + order.getId());
         dateOder.setText("Ngày lập: " + order.getBuyDate());
         person.setText("Người nhận: " + order.getRecipientName() + "\nĐịa chỉ: " + order.getDeliveryAddress());
-        if (order.getStatus()==0){
+        if (order.getStatus()){
             statusOrder.setText("Chưa xử lý");
             cancelOrder.setVisibility(View.VISIBLE);
 
-        }else if (order.getStatus()==1){
+        }else if (order.getStatus()){
             statusOrder.setText("Đã giao hàng");
             cancelOrder.setVisibility(View.INVISIBLE);
         }else {

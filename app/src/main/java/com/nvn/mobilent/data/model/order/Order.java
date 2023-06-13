@@ -10,10 +10,10 @@ public class Order implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("user_id")
+    private String id;
+    @SerializedName("userId")
     @Expose
-    private Integer userId;
+    private String userId;
     @SerializedName("deliveryAddress")
     @Expose
     private String deliveryAddress;
@@ -28,7 +28,7 @@ public class Order implements Serializable {
     private String phone;
     @SerializedName("status")
     @Expose
-    private Integer status;
+    private Boolean status;
     @SerializedName("recipientName")
     @Expose
     private String recipientName;
@@ -36,7 +36,10 @@ public class Order implements Serializable {
     @Expose
     private ArrayList<ListOrderItem> listOrderItem = null;
 
-    public Order(Integer id, Integer userId, String deliveryAddress, String buyDate, Object deliveryCancelDay, String phone, Integer status, String recipientName, ArrayList<ListOrderItem> listOrderItem) {
+    public Order() {
+
+    }
+    public Order(String id, String userId, String deliveryAddress, String buyDate, Object deliveryCancelDay, String phone, Boolean status, String recipientName, ArrayList<ListOrderItem> listOrderItem) {
         this.id = id;
         this.userId = userId;
         this.deliveryAddress = deliveryAddress;
@@ -60,19 +63,19 @@ public class Order implements Serializable {
         this.listOrderItem = order.getListOrderItem();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -108,11 +111,11 @@ public class Order implements Serializable {
         this.phone = phone;
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

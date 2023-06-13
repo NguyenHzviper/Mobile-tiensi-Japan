@@ -27,24 +27,18 @@ import com.nvn.mobilent.data.base.PathAPI;
 import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.category.Category;
 import com.nvn.mobilent.data.model.chart.ChartCategory;
-import com.nvn.mobilent.data.model.chart.RChart;
-import com.nvn.mobilent.data.api.CategoryAPI;
+
 import com.nvn.mobilent.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChartActivity extends AppCompatActivity {
     int sum = 0;
     BarChart barChart;
     PieChart pieChart;
     Toolbar toolbar;
-    CategoryAPI categoryAPI;
+
     ArrayList<ChartCategory> arrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +50,6 @@ public class ChartActivity extends AppCompatActivity {
             AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
         }
         arrayList = new ArrayList<>();
-        categoryAPI = (CategoryAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CategoryAPI.class);
         setEvent();
     }
 

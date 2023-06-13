@@ -9,10 +9,10 @@ public class ACart implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("prod_id")
     @Expose
-    private Integer prodId;
+    private String prodId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -26,7 +26,7 @@ public class ACart implements Serializable {
     @Expose
     private Integer quantity;
 
-    public ACart(Integer id, Integer prodId, String name, String image, Integer price, Integer quantity) {
+    public ACart(String id, String prodId, String name, String image, Integer price, Integer quantity) {
         this.id = id;
         this.prodId = prodId;
         this.name = name;
@@ -44,19 +44,19 @@ public class ACart implements Serializable {
         this.price = price;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getProdId() {
+    public String getProdId() {
         return prodId;
     }
 
-    public void setProdId(Integer prodId) {
+    public void setProdId(String prodId) {
         this.prodId = prodId;
     }
 

@@ -25,19 +25,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.product.ProductDetailActivity;
 import com.nvn.mobilent.data.adapter.ItemCategoryAdapter;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.product.Product;
-import com.nvn.mobilent.data.model.product.RProduct;
-import com.nvn.mobilent.data.api.ProductAPI;
 import com.nvn.mobilent.screens.cart.CartActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -46,16 +38,14 @@ public class CategoryActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String idCate;
     String nameCate;
-//    int page = 10;
-
     ItemCategoryAdapter itemCategoryAdapter;
     ArrayList<Product> productArrayList;
-    ProductAPI productAPI;
+
 
     View footerView;
     boolean isLoading = false;
     boolean limitData = false;
-//    MyHandler myHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,21 +90,6 @@ public class CategoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int i) {
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView absListView, int firstItem, int visibleItem, int totalItem) {
-//                if (firstItem + visibleItem == totalItem && totalItem != 0 && !isLoading && !limitData) {
-//                    isLoading = true;
-//                    ThreadData threadData = new ThreadData();
-//                    threadData.start();
-//                }
-//            }
-//        });
     }
 
     private void setControl() {
@@ -124,7 +99,6 @@ public class CategoryActivity extends AppCompatActivity {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         footerView = inflater.inflate(R.layout.processbar, null);
-//        myHandler = new MyHandler();
     }
 
     private void actionToolBar() {
@@ -172,43 +146,4 @@ public class CategoryActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-    private int getIdItem() {
-        return getIntent().getIntExtra("id", -1);
-    }
-
-//    public class MyHandler extends Handler {
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            // Quản lý thread gửi lên
-//            switch (msg.what) {
-//                case 0: {
-//                    listView.addFooterView(footerView); // Add thanh processbar
-//                    break;
-//                }
-//                case 1: {
-//                    getItemCategory(idCate, ++page); //cập nhật đổ dl listview
-//                    isLoading = false;
-//                    break;
-//                }
-//            }
-//            super.handleMessage(msg);
-//        }
-//    }
-
-//    public class ThreadData extends Thread {
-//        @Override
-//        public void run() {
-//            myHandler.sendEmptyMessage(0);
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            Message message = myHandler.obtainMessage(1); // method liên kết thread vs handler
-//            myHandler.sendMessage(message);
-//        }
-//    }
-
 }

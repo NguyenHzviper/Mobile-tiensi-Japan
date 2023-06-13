@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Info {
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("email")
     @Expose
     private String email;
@@ -29,7 +29,7 @@ public class Info {
     @Expose
     private String birthday;
 
-    public Info(Integer id, String email, String firstname, String lastname, String address, String phone, Integer gender, String birthday) {
+    public Info(String id, String email, String firstname, String lastname, String address, String phone, Integer gender, String birthday) {
         this.id = id;
         this.email = email;
         this.firstname = firstname;
@@ -40,11 +40,11 @@ public class Info {
         this.birthday = birthday;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

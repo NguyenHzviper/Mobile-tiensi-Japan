@@ -29,24 +29,18 @@ import com.nvn.mobilent.data.adapter.CategoryAdapter;
 import com.nvn.mobilent.data.base.PathAPI;
 import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.category.Category;
-import com.nvn.mobilent.data.model.category.RCategory;
-import com.nvn.mobilent.data.api.CategoryAPI;
+
 import com.nvn.mobilent.utils.AppUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CategoryFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ListView listViewCategory;
     public ArrayList<Category> categoryArrayList;
     CategoryAdapter categoryAdapter;
-    CategoryAPI categoryAPI;
+
     ImageView reportCategory;
 
     public CategoryFragment() {
@@ -136,7 +130,6 @@ public class CategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setControl();
         setEvent();
-        categoryAPI = (CategoryAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CategoryAPI.class);
         if (!AppUtils.haveNetworkConnection(getContext())) {
             AppUtils.showToast_Short(getContext(), "Kiểm tra lại kết nối Internet");
         } else {

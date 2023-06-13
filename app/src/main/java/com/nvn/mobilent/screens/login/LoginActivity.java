@@ -26,14 +26,13 @@ import com.nvn.mobilent.MainActivity;
 import com.nvn.mobilent.screens.register.RegisterActivity;
 
 import com.nvn.mobilent.data.model.user.User;
-import com.nvn.mobilent.data.api.UserAPI;
 import com.nvn.mobilent.utils.AppUtils;
 
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
@@ -95,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                                             // User data found
                                                             User user = documentSnapshot.toObject(User.class);
                                                             assert user != null;
+                                                            user.setId(userId);
                                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                                             intent.putExtra("user", user);
                                                             startActivity(intent);

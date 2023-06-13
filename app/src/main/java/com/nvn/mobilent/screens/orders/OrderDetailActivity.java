@@ -8,33 +8,37 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
-import android.os.Build;
+import android.net.Uri;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.BuildConfig;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.adapter.OrderItemAdapter;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.order.ListOrderItem;
 import com.nvn.mobilent.data.model.order.Order;
-import com.nvn.mobilent.data.model.order.ROrderItemDetail;
-import com.nvn.mobilent.data.api.OrderAPI;
+
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,24 +46,20 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import retrofit2.http.Url;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
     Order orderSelected;
-    ImageView imageView;
-    TextView name, price, amount;
     Toolbar toolbar;
-    int idOrder;
-
-    OrderAPI orderAPI;
+    String idOrder;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     ListView listOrderDetail;
     ArrayList<ListOrderItem> orderItemArrayList;
     OrderItemAdapter orderItemAdapter;
-    DateFormat dateFormat;
+
 
     private void setEvent() {
     }
@@ -81,29 +81,30 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void getOrderbyOrderId(int idOrder) {
-        orderAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(OrderAPI.class);
-        orderAPI.getDetailOrderbyIdOrder(idOrder).enqueue(new Callback<ROrderItemDetail>() {
-            @Override
-            public void onResponse(Call<ROrderItemDetail> call, Response<ROrderItemDetail> response) {
-                if (response.isSuccessful()) {
-                    for (ListOrderItem loi : response.body().getData()) {
-                        orderItemArrayList.add(new ListOrderItem(loi));
+    private void getOrderbyOrderId(String idOrder) {
+        db.collection("orders")
+                .document(idOrder)
+                .collection("orderDetails")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<ListOrderItem> orderItemArrayList = queryDocumentSnapshots.toObjects(ListOrderItem.class);
+                        System.out.println(orderItemArrayList.size());
+                        System.out.println("SIZELiSTORDERITEM: " + orderItemArrayList.size());
+                        orderItemAdapter = new OrderItemAdapter(getApplicationContext(), R.layout.line_orderdetail, (ArrayList<ListOrderItem>) orderItemArrayList);
+                        listOrderDetail.setAdapter(orderItemAdapter);
+                        orderItemAdapter.notifyDataSetChanged();
                     }
-                    System.out.println(orderItemArrayList.size());
-                    System.out.println("SIZELiSTORDERITEM: " + orderItemArrayList.size());
-                    orderItemAdapter = new OrderItemAdapter(getApplicationContext(), R.layout.line_orderdetail, orderItemArrayList);
-                    listOrderDetail.setAdapter(orderItemAdapter);
-                    orderItemAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ROrderItemDetail> call, Throwable t) {
-
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the failure
+                    }
+                });
     }
+
 
     private int pageWidth = 1200, pageHeight = 2010;
 
@@ -144,19 +145,24 @@ public class OrderDetailActivity extends AppCompatActivity {
         }, PackageManager.PERMISSION_GRANTED);
 
         Date date = new Date();
-        orderAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(OrderAPI.class);
-        orderAPI.getDetailOrderbyIdOrder(idOrder).enqueue(new Callback<ROrderItemDetail>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<ROrderItemDetail> call, Response<ROrderItemDetail> response) {
-                if (response.isSuccessful()) {
-                    {
-                        ArrayList<ListOrderItem> data = response.body().getData();
+        db.collection("orders")
+                .document(idOrder)
+                .collection("orderDetails")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        ArrayList<ListOrderItem> data = new ArrayList<>();
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            ListOrderItem orderItem = document.toObject(ListOrderItem.class);
+                            data.add(orderItem);
+                        }
+
                         PdfDocument pdfDocument = new PdfDocument();
                         Paint Titlepaint = new Paint();
                         Paint myPaint = new Paint();
                         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create();
-                        PdfDocument.Page page = pdfDocument.startPage((pageInfo));
+                        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
                         Canvas canvas = page.getCanvas();
                         Titlepaint.setTextSize(60f);
                         Titlepaint.setColor(Color.BLUE);
@@ -170,7 +176,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         myPaint.setTextAlign(Paint.Align.RIGHT);
                         canvas.drawText("Ngày mua hàng: " + orderSelected.getBuyDate(), pageWidth - 20, 500, myPaint);
 
-                        dateFormat = new SimpleDateFormat("dd/MM/yy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
                         canvas.drawText("Ngày in hoá đơn: " + dateFormat.format(date), pageWidth - 20, 640, myPaint);
                         dateFormat = new SimpleDateFormat("HH:mm:ss");
                         canvas.drawText("Thời gian: " + dateFormat.format(date), pageWidth - 20, 690, myPaint);
@@ -193,11 +199,12 @@ public class OrderDetailActivity extends AppCompatActivity {
                         int rowNumber = -2;
 
                         for (int i = 0; i < data.size(); i++) {
-                            money = money + data.get(i).getPrice() * data.get(i).getQuantity();
+                            ListOrderItem orderItem = data.get(i);
+                            money = money + orderItem.getPrice() * orderItem.getQuantity();
                             rowNumber++;
-                            canvas.drawText(data.get(i).getName() + "", 20, yChuan, myPaint);
-                            canvas.drawText(data.get(i).getPrice() + "", 820, yChuan, myPaint);
-                            canvas.drawText(data.get(i).getQuantity() + "", 1100, yChuan, myPaint);
+                            canvas.drawText(orderItem.getName() + "", 20, yChuan, myPaint);
+                            canvas.drawText(orderItem.getPrice() + "", 820, yChuan, myPaint);
+                            canvas.drawText(orderItem.getQuantity() + "", 1100, yChuan, myPaint);
                             yChuan += yThem;
                         }
                         myPaint.setTextAlign(Paint.Align.RIGHT);
@@ -211,7 +218,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                         myPaint.setTextAlign(Paint.Align.RIGHT);
                         canvas.drawText(String.valueOf(money), pageWidth - 40, 1415 + rowNumber * 100, myPaint);
                         pdfDocument.finishPage(page);
-                        dateFormat = new SimpleDateFormat("dd-MM-yy-HH-mm-ss");
                         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
                                 File.separator + "Report" + dateFormat.format(date) + ".pdf");
                         try {
@@ -221,11 +227,11 @@ public class OrderDetailActivity extends AppCompatActivity {
                         }
                         pdfDocument.close();
                         Intent target = new Intent(Intent.ACTION_VIEW);
-                        target.setDataAndType(FileProvider.getUriForFile(OrderDetailActivity.this, BuildConfig.APPLICATION_ID + ".provider", file), "application/pdf");
+                        Url fileUrl = (Url) FileProvider.getUriForFile(OrderDetailActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
+                        target.setDataAndType((Uri) fileUrl, "application/pdf");
                         target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |
                                 Intent.FLAG_ACTIVITY_NO_HISTORY);
-
 
                         Intent intent = Intent.createChooser(target, "Open File");
 
@@ -235,16 +241,14 @@ public class OrderDetailActivity extends AppCompatActivity {
                             // Instruct the user to install a PDF reader here, or something
                         }
                     }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ROrderItemDetail> call, Throwable t) {
-
-            }
-        });
-
-
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the failure
+                    }
+                });
     }
+
 
 }

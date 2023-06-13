@@ -18,7 +18,6 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.base.PathAPI;
 import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.user.REmail;
-import com.nvn.mobilent.data.api.UserAPI;
 import com.nvn.mobilent.utils.AppUtils;
 
 import retrofit2.Call;
@@ -28,7 +27,6 @@ import retrofit2.Response;
 public class EmailFragment extends Fragment {
     EditText email;
     Button btnRecovery;
-    UserAPI userAPI;
     private TextInputLayout textInputLayoutEmail;
     private String regexEmail = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$";
 
@@ -90,30 +88,12 @@ public class EmailFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-        userAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(UserAPI.class);
+
         btnRecovery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkData()) {
-                    userAPI.forgotPassword(email.getText().toString().trim()).enqueue(new Callback<REmail>() {
-                        @Override
-                        public void onResponse(Call<REmail> call, Response<REmail> response) {
-                            if (response.isSuccessful()) {
-                                if (response.body().getResult()) {
-                                    AppUtils.showToast_Short(getContext(), "Đã gửi mật khẩu mới về email của bạn!");
-                                    email.setText("");
-                                    getActivity().finish();
-                                }
-                            } else {
-                                AppUtils.showToast_Short(getContext(), "Email không tồn tại trên hệ thống!");
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(Call<REmail> call, Throwable t) {
-
-                        }
-                    });
                 }
             }
         });

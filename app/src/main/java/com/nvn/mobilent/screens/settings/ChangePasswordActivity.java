@@ -17,8 +17,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 
 import com.nvn.mobilent.data.model.user.User;

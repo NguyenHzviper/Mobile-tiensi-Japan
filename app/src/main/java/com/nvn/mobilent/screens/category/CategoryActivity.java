@@ -46,7 +46,7 @@ public class CategoryActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String idCate;
     String nameCate;
-    int page = 10;
+//    int page = 10;
 
     ItemCategoryAdapter itemCategoryAdapter;
     ArrayList<Product> productArrayList;
@@ -55,7 +55,7 @@ public class CategoryActivity extends AppCompatActivity {
     View footerView;
     boolean isLoading = false;
     boolean limitData = false;
-    MyHandler myHandler;
+//    MyHandler myHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class CategoryActivity extends AppCompatActivity {
         toolbar.setTitle(nameCate);
 
         actionToolBar();
-        getItemCategory(idCate, page);
+        getItemCategory(idCate);
         getMoreItemCategory();
     }
 
@@ -101,20 +101,20 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstItem, int visibleItem, int totalItem) {
-                if (firstItem + visibleItem == totalItem && totalItem != 0 && !isLoading && !limitData) {
-                    isLoading = true;
-                    ThreadData threadData = new ThreadData();
-                    threadData.start();
-                }
-            }
-        });
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int i) {
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView absListView, int firstItem, int visibleItem, int totalItem) {
+//                if (firstItem + visibleItem == totalItem && totalItem != 0 && !isLoading && !limitData) {
+//                    isLoading = true;
+//                    ThreadData threadData = new ThreadData();
+//                    threadData.start();
+//                }
+//            }
+//        });
     }
 
     private void setControl() {
@@ -124,7 +124,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         footerView = inflater.inflate(R.layout.processbar, null);
-        myHandler = new MyHandler();
+//        myHandler = new MyHandler();
     }
 
     private void actionToolBar() {
@@ -138,12 +138,11 @@ public class CategoryActivity extends AppCompatActivity {
         });
     }
 
-    private void getItemCategory(String idCate, int page) {
+    private void getItemCategory(String cateId) {
 
         System.out.println(idCate);
         db.collection("products")
-                .whereEqualTo("cate_id", idCate)
-                .limit(page)
+                .whereEqualTo("cateId", cateId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -160,6 +159,8 @@ public class CategoryActivity extends AppCompatActivity {
                             if (productList.size() > 0) {
                                 listView.removeFooterView(footerView);
                                 productArrayList.addAll(productList);
+                                itemCategoryAdapter = new ItemCategoryAdapter(getApplicationContext(), productArrayList);
+                                listView.setAdapter(itemCategoryAdapter);
                                 itemCategoryAdapter.notifyDataSetChanged();
                             } else {
                                 limitData = true;
@@ -177,37 +178,37 @@ public class CategoryActivity extends AppCompatActivity {
         return getIntent().getIntExtra("id", -1);
     }
 
-    public class MyHandler extends Handler {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            // Quản lý thread gửi lên
-            switch (msg.what) {
-                case 0: {
-                    listView.addFooterView(footerView); // Add thanh processbar
-                    break;
-                }
-                case 1: {
-                    getItemCategory(idCate, ++page); //cập nhật đổ dl listview
-                    isLoading = false;
-                    break;
-                }
-            }
-            super.handleMessage(msg);
-        }
-    }
+//    public class MyHandler extends Handler {
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            // Quản lý thread gửi lên
+//            switch (msg.what) {
+//                case 0: {
+//                    listView.addFooterView(footerView); // Add thanh processbar
+//                    break;
+//                }
+//                case 1: {
+//                    getItemCategory(idCate, ++page); //cập nhật đổ dl listview
+//                    isLoading = false;
+//                    break;
+//                }
+//            }
+//            super.handleMessage(msg);
+//        }
+//    }
 
-    public class ThreadData extends Thread {
-        @Override
-        public void run() {
-            myHandler.sendEmptyMessage(0);
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Message message = myHandler.obtainMessage(1); // method liên kết thread vs handler
-            myHandler.sendMessage(message);
-        }
-    }
+//    public class ThreadData extends Thread {
+//        @Override
+//        public void run() {
+//            myHandler.sendEmptyMessage(0);
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            Message message = myHandler.obtainMessage(1); // method liên kết thread vs handler
+//            myHandler.sendMessage(message);
+//        }
+//    }
 
 }

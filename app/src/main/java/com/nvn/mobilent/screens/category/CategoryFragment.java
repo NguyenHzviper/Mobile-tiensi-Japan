@@ -35,6 +35,7 @@ import com.nvn.mobilent.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,8 +63,7 @@ public class CategoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_category, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_category, container, false);
     }
 
 
@@ -87,8 +87,8 @@ public class CategoryFragment extends Fragment {
 
 
     private void setControl() {
-        listViewCategory = getView().findViewById(R.id.listviewcategory);
-        reportCategory = getView().findViewById(R.id.reportcategory);
+        listViewCategory = requireView().findViewById(R.id.listviewcategory);
+        reportCategory = requireView().findViewById(R.id.reportcategory);
         categoryArrayList = new ArrayList<>();
     }
 
@@ -96,7 +96,7 @@ public class CategoryFragment extends Fragment {
 
         CollectionReference categoriesRef = db.collection("categories");
 
-        categoriesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        categoriesRef.whereEqualTo("status", true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -108,19 +108,10 @@ public class CategoryFragment extends Fragment {
                         categoryArrayList.add(category);
                     }
 
-                    // Remove categories with status "false"
-                    Iterator<Category> iterator = categoryArrayList.iterator();
-                    while (iterator.hasNext()) {
-                        Category category = iterator.next();
-                        if (category.getStatus().equals("false")) {
-                            iterator.remove();
-                        }
-                    }
-
                     listViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            if (!AppUtils.haveNetworkConnection(getContext())) {
+                            if (!AppUtils.haveNetworkConnection(requireContext())) {
                                 AppUtils.showToast_Short(getContext(), "Kiểm tra lại kết nối Internet");
                             } else {
                                 Intent intent = new Intent(getActivity(), CategoryActivity.class);

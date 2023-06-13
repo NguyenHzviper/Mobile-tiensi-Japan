@@ -92,7 +92,7 @@ public class ChartActivity extends AppCompatActivity {
                                 String categoryId = category.getId();
                                 System.out.println(categoryId);
                                 db.collection("products")
-                                        .whereEqualTo("cate_id", categoryId)
+                                        .whereEqualTo("cateId", categoryId)
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override

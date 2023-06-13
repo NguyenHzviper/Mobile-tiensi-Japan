@@ -19,7 +19,7 @@ public class Product implements Serializable {
     @SerializedName("discount")
     @Expose
     private Integer discount;
-    @SerializedName("cate_id")
+    @SerializedName("cateId")
     @Expose
     private String cateId;
     @SerializedName("image")

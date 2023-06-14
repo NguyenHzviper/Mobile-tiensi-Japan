@@ -26,8 +26,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.cart.CartActivity;
 import com.nvn.mobilent.data.adapter.CategoryAdapter;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.category.Category;
 
 import com.nvn.mobilent.utils.AppUtils;

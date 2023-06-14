@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.adapter.ProductAdapter;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.product.Product;
 import com.nvn.mobilent.data.model.product.RProduct;
 

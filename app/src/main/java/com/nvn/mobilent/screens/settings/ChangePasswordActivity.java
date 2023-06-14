@@ -49,6 +49,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void actionToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //tạo nút home
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

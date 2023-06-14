@@ -41,6 +41,10 @@
 
 
         <activity
+            android:name=".screens.settings.ViewAccountInfo"
+            android:exported="false" />
+
+        <activity
             android:name=".screens.forgot.NewPasswordActivity"
             android:exported="false" />
         <activity

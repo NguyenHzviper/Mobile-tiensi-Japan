@@ -11,12 +11,71 @@
         android:id="@+id/toolbar_order"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/primaryTextColor"
         app:title="Lịch sử các đơn hàng"
-        app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
+        app:titleTextColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ccc" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:layout_gravity="center|start"
+            android:textSize="14sp"
+            android:paddingLeft="12dp"
+            android:gravity="center|start"
+            android:textColor="@color/black"
+            android:text="Từ ngày:" />
+
+        <TextView
+            android:id="@+id/btn_order_history_from"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:text="01.01.2020"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/bg_datepicker_dialog"
+            android:layout_gravity="center|start"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="đến" />
+
+        <TextView
+            android:id="@+id/btn_order_history_from_to"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:background="@drawable/bg_datepicker_dialog"
+            android:text="01.01.2020"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#eee"
+        />
 
     <ListView
         android:id="@+id/listOrder"
         android:layout_width="match_parent"
+        android:background="#eee"
         android:layout_height="match_parent"></ListView>
 </LinearLayout>

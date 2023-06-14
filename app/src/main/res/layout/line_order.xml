@@ -1,84 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:weightSum="10">
+    android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="0dp"
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
-
-        <ImageView
-            android:id="@+id/imgOrder"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_order" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="8"
-        android:orientation="vertical">
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvOrder"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_date_lb"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="name"
-            android:textSize="15dp" />
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:text="Ngày:"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="date"
-            android:textSize="15dp" />
+            android:paddingLeft="10dp"
+            android:text="01.01.2023"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_date_lb"
+            app:layout_constraintStart_toEndOf="@+id/tv_date_lb"
+            app:layout_constraintTop_toTopOf="@+id/tv_date_lb"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/tv_person"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_status_lb"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="person"
-            android:textSize="15dp" />
+            android:layout_marginTop="8dp"
+            android:text="Trạng thái:"
+            android:textColor="@color/purple_200"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tv_date_lb"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_lb" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_marginRight="5dp"
-        android:layout_height="wrap_content"
-        >
         <TextView
             android:id="@+id/statusorder"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Đã giao hàng"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@color/primaryTextColor"
-            />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="Đang giao"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/tv_status_lb"
+            app:layout_constraintTop_toTopOf="@id/tv_status_lb" />
+
         <TextView
-            android:id="@+id/cancelorder"
-            android:layout_marginTop="10dp"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:text="Huỷ đơn"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="#AF3F3D"
-            />
-    </LinearLayout>
-</LinearLayout>
+            android:id="@+id/tv_price_order"
+            android:layout_width="150dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="4dp"
+            android:gravity="center|right"
+            android:text="1.000.000đ"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_status_lb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/tv_date_lb"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_address_lb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Địa chỉ:"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tv_date_lb"
+            app:layout_constraintTop_toBottomOf="@+id/tv_status_lb" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="10dp"
+            android:text="6/14A Chánh Hưng, phường Cầu giờ, quận Cầu Giấy, TP. HCM"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_address_lb"
+            app:layout_constraintEnd_toEndOf="@+id/tv_price_order"
+            app:layout_constraintStart_toEndOf="@+id/tv_address_lb"
+            app:layout_constraintTop_toTopOf="@+id/tv_address_lb"
+            app:layout_constraintVertical_bias="0.437" />
+
+        <View
+            android:id="@+id/seperate_history_order"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/tv_address" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="ORDER AGAIN"
+            android:textColor="#2a9d8f"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_status_lb"
+            app:layout_constraintTop_toBottomOf="@id/seperate_history_order" />
+
+        <RatingBar
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.3"
+            app:layout_constraintBottom_toBottomOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="@+id/tv_price_order"
+            app:layout_constraintTop_toTopOf="@+id/textView7" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

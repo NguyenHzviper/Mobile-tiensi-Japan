@@ -26,4 +26,6 @@
     <color name="darkGray">#27282c</color>
     <color name="mediumGray">#262523</color>
     <color name="deep">#2F2B64</color>
+
+    <color name="light_blue">#bde0fe</color>
 </resources>

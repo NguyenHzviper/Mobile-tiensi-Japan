@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MobileVN</string>
+    <string name="app_name">Homely</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Mật khẩu</string>
     <string name="login_repassword_hint">Nhập lại mật khẩu</string>

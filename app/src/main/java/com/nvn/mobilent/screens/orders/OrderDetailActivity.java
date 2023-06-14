@@ -82,9 +82,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void getOrderbyOrderId(String idOrder) {
-        db.collection("orders")
-                .document(idOrder)
-                .collection("orderDetails")
+        db.collection("orderDetails")
+                .whereEqualTo("orderId",idOrder)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -145,9 +144,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         }, PackageManager.PERMISSION_GRANTED);
 
         Date date = new Date();
-        db.collection("orders")
-                .document(idOrder)
-                .collection("orderDetails")
+
+        db.collection("orderDetails")
+                .whereEqualTo("orderId",idOrder)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -155,6 +154,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                         ArrayList<ListOrderItem> data = new ArrayList<>();
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
                             ListOrderItem orderItem = document.toObject(ListOrderItem.class);
+                            assert orderItem != null;
+                            orderItem.setId(document.getId());
                             data.add(orderItem);
                         }
 
@@ -218,17 +219,25 @@ public class OrderDetailActivity extends AppCompatActivity {
                         myPaint.setTextAlign(Paint.Align.RIGHT);
                         canvas.drawText(String.valueOf(money), pageWidth - 40, 1415 + rowNumber * 100, myPaint);
                         pdfDocument.finishPage(page);
-                        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-                                File.separator + "Report" + dateFormat.format(date) + ".pdf");
+
+                        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        String formattedDate = dateFormat.format(date);
+                        String fileName = "Report_" + formattedDate + ".pdf";
+                        fileName = fileName.replace(":", ".");
+
+                        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), fileName);
+
                         try {
                             pdfDocument.writeTo(new FileOutputStream(file));
                         } catch (Exception e) {
                             Log.d("PDFERROR", e.toString());
                         }
                         pdfDocument.close();
+
+                        Uri fileUri = FileProvider.getUriForFile(OrderDetailActivity.this, "com.nvn.mobilent.fileprovider", file);
+
                         Intent target = new Intent(Intent.ACTION_VIEW);
-                        Url fileUrl = (Url) FileProvider.getUriForFile(OrderDetailActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
-                        target.setDataAndType((Uri) fileUrl, "application/pdf");
+                        target.setDataAndType(fileUri, "application/pdf");
                         target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |
                                 Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -238,8 +247,9 @@ public class OrderDetailActivity extends AppCompatActivity {
                         try {
                             startActivity(intent);
                         } catch (ActivityNotFoundException e) {
-                            // Instruct the user to install a PDF reader here, or something
+                            // Instruct the user to install a PDF reader here, or handle the exception as desired
                         }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

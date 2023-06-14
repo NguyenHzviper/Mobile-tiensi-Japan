@@ -15,14 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
-import com.nvn.mobilent.data.model.user.REmail;
-import com.nvn.mobilent.utils.AppUtils;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class EmailFragment extends Fragment {
     EditText email;

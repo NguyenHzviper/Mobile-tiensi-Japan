@@ -250,6 +250,8 @@ public class InfoCartActivity extends AppCompatActivity {
                                                                                     Map<String, Object> orderDetailData = new HashMap<>();
                                                                                     orderDetailData.put("quantity", cart.getQuantity());
                                                                                     orderDetailData.put("prodId", cart.getProdId());
+                                                                                    orderDetailData.put("name", cart.getName());
+                                                                                    orderDetailData.put("image", cart.getImage());
                                                                                     orderDetailData.put("price", price);
                                                                                     orderDetailData.put("orderId", idOrder);
 

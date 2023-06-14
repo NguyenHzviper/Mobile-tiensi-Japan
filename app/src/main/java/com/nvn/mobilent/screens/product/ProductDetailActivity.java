@@ -9,28 +9,33 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.cart.Cart;
 import com.nvn.mobilent.data.model.product.Product;
 import com.nvn.mobilent.data.model.cart.RListCartItem;
 import com.nvn.mobilent.data.model.cart.R_Cart;
 import com.nvn.mobilent.data.model.user.User;
-import com.nvn.mobilent.data.api.CartItemAPI;
+
 import com.nvn.mobilent.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 public class ProductDetailActivity extends AppCompatActivity {
     static Toolbar toolbar;
@@ -56,36 +61,52 @@ public class ProductDetailActivity extends AppCompatActivity {
         setEventButton();
     }
 
-//    public static void postCartItem(String prod_id, int quantity, int userid) {
-//        CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
-//        cartItemAPI.setNewCartItem(prod_id, quantity, userid).enqueue(new Callback<R_Cart>() {
-//            @Override
-//            public void onResponse(Call<R_Cart> call, Response<R_Cart> response) {
-//                if (response.isSuccessful()) {
-//                    AppUtils.showToast_Short(toolbar.getContext(), "Đã thêm sản phẩm vào giỏ hàng!");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<R_Cart> call, Throwable t) {
-//            }
-//        });
-//    }
+    public static void postCartItem(String prod_id,String name,String image, int quantity, String userid) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference cartItemsRef = db.collection("cart");
 
-    public static void putCartItem(int cartItem_id, int quantity) {
-        CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
-        cartItemAPI.editCartItem(cartItem_id, quantity).enqueue(new Callback<R_Cart>() {
-            @Override
-            public void onResponse(Call<R_Cart> call, Response<R_Cart> response) {
-                if (response.isSuccessful()) {
-                    AppUtils.showToast_Short(toolbar.getContext(), "Đã cập nhật sản phẩm vào giỏ hàng!");
-                }
-            }
+        Cart newCartItem = new Cart();
+        newCartItem.setProdId(prod_id);
+        newCartItem.setQuantity(quantity);
+        newCartItem.setUserId(userid);
+        newCartItem.setName(name);
+        newCartItem.setImage(image);
 
-            @Override
-            public void onFailure(Call<R_Cart> call, Throwable t) {
-            }
-        });
+        cartItemsRef.add(newCartItem)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        AppUtils.showToast_Short(toolbar.getContext(), "Đã thêm sản phẩm vào giỏ hàng!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add cart item
+                        Log.d("ERROR: ", e.toString());
+                    }
+                });
+    }
+
+    public static void putCartItem(String cartItem_id, int quantity) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference cartItemsRef = db.collection("cart");
+
+        cartItemsRef.document(String.valueOf(cartItem_id))
+                .update("quantity", quantity)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        AppUtils.showToast_Short(toolbar.getContext(), "Đã cập nhật sản phẩm vào giỏ hàng!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to update cart item
+                        Log.d("ERROR: ", e.toString());
+                    }
+                });
     }
 
     private void setEventButton() {
@@ -94,37 +115,48 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
                 int amount = Integer.parseInt(spinner.getSelectedItem().toString());
-                CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
-                cartItemAPI.getCartItemByUserId(user.getId()).enqueue(new Callback<RListCartItem>() {
-                    @Override
-                    public void onResponse(Call<RListCartItem> call, Response<RListCartItem> response) {
-                        ArrayList<Cart> arrs = response.body().getData();
-                        boolean exist = false;
-                        for (Cart item : arrs) {
-                            if (item.getProdId().equals(product.getId())) {
-                                item.setQuantity(item.getQuantity() + amount);
-                                if (item.getQuantity() >= 10) {
-                                    item.setQuantity(10);
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference cartItemsRef = db.collection("cart");
+
+                cartItemsRef.whereEqualTo("userId", user.getId())
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot querySnapshot) {
+                                List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+                                boolean exist = false;
+
+                                for (DocumentSnapshot document : documents) {
+                                    Cart cartItem = document.toObject(Cart.class);
+                                    assert cartItem != null;
+                                    cartItem.setId(document.getId());
+                                    if (cartItem.getProdId().equals(product.getId())) {
+                                        cartItem.setQuantity(cartItem.getQuantity() + amount);
+
+                                        putCartItem(cartItem.getId(), cartItem.getQuantity());
+                                        exist = true;
+                                    }
                                 }
-                                putCartItem(item.getId(), item.getQuantity());
-                                exist = true;
+
+                                if (!exist) {
+                                    postCartItem(product.getId(),product.getName(),product.getImage(), amount, user.getId());
+                                }
                             }
-                        }
-
-//                        if (!exist) {
-//                            postCartItem(product.getId(), amount, user.getId());
-//                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(Call<RListCartItem> call, Throwable t) {
-                        Log.d("ERROR: ", t.toString());
-                    }
-                });
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Error retrieving cart items
+                                Log.d("ERROR: ", e.toString());
+                            }
+                        });
             }
         });
     }
+
+
+
 
     private void loadInfo() {
         product = (Product) getIntent().getSerializableExtra("product");

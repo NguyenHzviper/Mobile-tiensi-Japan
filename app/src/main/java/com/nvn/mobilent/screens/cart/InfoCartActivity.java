@@ -8,37 +8,41 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.base.NotificationApp;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
+
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.cart.Cart;
-import com.nvn.mobilent.data.model.order.OrderDetailCheckout;
-import com.nvn.mobilent.data.model.cart.RListCartItem;
-import com.nvn.mobilent.data.model.order.ROrderObject;
-import com.nvn.mobilent.data.model.cart.R_Cart;
-import com.nvn.mobilent.data.model.cart.R_ProductCartItem;
+
+import com.nvn.mobilent.data.model.product.Product;
 import com.nvn.mobilent.data.model.user.User;
-import com.nvn.mobilent.data.api.CartItemAPI;
-import com.nvn.mobilent.data.api.OrderAPI;
-import com.nvn.mobilent.data.api.ProductAPI;
+
 import com.nvn.mobilent.utils.AppUtils;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InfoCartActivity extends AppCompatActivity {
 
     NotificationManagerCompat notificationManagerCompat;
-
+    static  FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText recipientName, phone, address;
     Button btnDatHang;
     User user;
@@ -51,22 +55,41 @@ public class InfoCartActivity extends AppCompatActivity {
     private TextInputLayout textInputLayoutPhone;
     private TextInputLayout textInputLayoutAddress;
 
-    public static void deleteAllCart(int userid) {
-        CartItemAPI cartItemAPI = (CartItemAPI) RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
-        cartItemAPI.deleteAllCartByUserId(userid).enqueue(new Callback<R_Cart>() {
-            @Override
-            public void onResponse(Call<R_Cart> call, Response<R_Cart> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("Deleted Cart: " + response.body().getResult());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<R_Cart> call, Throwable t) {
-
-            }
-        });
+    public static void deleteAllCart(String userId) {
+        db.collection("cart")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                        WriteBatch batch = db.batch();
+                        for (DocumentSnapshot document : documents) {
+                            batch.delete(document.getReference());
+                        }
+                        batch.commit()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        System.out.println("Deleted all cart items for user: " + userId);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle the failure
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the failure
+                    }
+                });
     }
+
 
     @Override
     public void onBackPressed() {
@@ -167,89 +190,121 @@ public class InfoCartActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        // Check for internet connection
         if (!AppUtils.haveNetworkConnection(getApplicationContext())) {
             AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
         } else {
             btnDatHang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ProductAPI productAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(ProductAPI.class);
-                    CartItemAPI cartItemAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(CartItemAPI.class);
-                    OrderAPI orderAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(OrderAPI.class);
-
                     String name = recipientName.getText().toString().trim();
                     String sdt = phone.getText().toString().trim();
                     String diaChi = address.getText().toString().trim();
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    String formattedDate = dateFormat.format(currentDate);
+
                     if (checkData()) {
-                        //CHECK CHECK CHECK
-                        System.out.println("INFOSIZECART: " + sizeCart);
-                        if (sizeCart > 0) {
-                            System.out.println("AAAAAA: " + user.getId());
-                            orderAPI.postOrder(user.getId(), diaChi, sdt, name).enqueue(new Callback<ROrderObject>() {
-                                @Override
-                                public void onResponse(Call<ROrderObject> call, Response<ROrderObject> response) {
-                                    if (response.isSuccessful()) {
-//                                        AppUtils.showToast_Short(getApplicationContext(), "Đặt hàng thành công!");
-                                        int idOrder = response.body().getData().getId();
+                        // Create an order document in Firestore
+                        Map<String, Object> orderData = new HashMap<>();
+                        orderData.put("userId", user.getId());
+                        orderData.put("deliveryAddress", diaChi);
+                        orderData.put("phone", sdt);
+                        orderData.put("recipientName", name);
+                        orderData.put("status", true);
+                        orderData.put("buyDate", formattedDate);
+
+
+                        db.collection("orders")
+                                .add(orderData)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        String idOrder = documentReference.getId();
                                         recipientName.setText("");
                                         phone.setText("");
                                         address.setText("");
-                                        // Get sản phẩm từ cart
-                                        cartItemAPI.getCartItemByUserId(user.getId()).enqueue(new Callback<RListCartItem>() {
-                                            @Override
-                                            public void onResponse(Call<RListCartItem> call, Response<RListCartItem> response) {
-                                                if (response.isSuccessful() && response.body().getData().size() > 0) {
-                                                    for (Cart c : response.body().getData()) {
-                                                        //   Get giá sản phẩm từ product
-                                                        productAPI.getProductByID(c.getProdId()).enqueue(new Callback<R_ProductCartItem>() {
-                                                            @Override
-                                                            public void onResponse(Call<R_ProductCartItem> call, Response<R_ProductCartItem> response) {
-                                                                int price = response.body().getData().getPrice();
-                                                                // Đưa vào order Detail
-                                                                orderAPI.postOrderDetail(c.getQuantity(), c.getProdId(), price, idOrder).enqueue(new Callback<OrderDetailCheckout>() {
-                                                                    @Override
-                                                                    public void onResponse(Call<OrderDetailCheckout> call, Response<OrderDetailCheckout> response) {
-                                                                        if (response.isSuccessful()) {
-                                                                            System.out.println("ADDED!");
-                                                                        }
-                                                                    }
 
-                                                                    @Override
-                                                                    public void onFailure(Call<OrderDetailCheckout> call, Throwable t) {
+                                        // Get cart items for the current user
+                                        db.collection("cart")
+                                                .whereEqualTo("userId", user.getId())
+                                                .get()
+                                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                                            List<Cart> cartItems = queryDocumentSnapshots.toObjects(Cart.class);
+                                                            for (Cart cart : cartItems) {
+                                                                // Get the product price
+                                                                db.collection("products")
+                                                                        .document(cart.getProdId())
+                                                                        .get()
+                                                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                                                Product product = documentSnapshot.toObject(Product.class);
+                                                                                if (product != null) {
+                                                                                    int price = product.getPrice();
 
-                                                                    }
-                                                                });
+                                                                                    // Create an order detail document in Firestore
+                                                                                    Map<String, Object> orderDetailData = new HashMap<>();
+                                                                                    orderDetailData.put("quantity", cart.getQuantity());
+                                                                                    orderDetailData.put("prodId", cart.getProdId());
+                                                                                    orderDetailData.put("name", cart.getName());
+                                                                                    orderDetailData.put("image", cart.getImage());
+                                                                                    orderDetailData.put("price", price);
+                                                                                    orderDetailData.put("orderId", idOrder);
 
+                                                                                    db.collection("orderDetails")
+                                                                                            .add(orderDetailData)
+                                                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                @Override
+                                                                                                public void onSuccess(DocumentReference documentReference) {
+                                                                                                    System.out.println("ADDED!");
+                                                                                                }
+                                                                                            })
+                                                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                                                @Override
+                                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                                    // Handle the failure
+                                                                                                }
+                                                                                            });
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                        .addOnFailureListener(new OnFailureListener() {
+                                                                            @Override
+                                                                            public void onFailure(@NonNull Exception e) {
+                                                                                // Handle the failure
+                                                                            }
+                                                                        });
                                                             }
 
-                                                            @Override
-                                                            public void onFailure(Call<R_ProductCartItem> call, Throwable t) {
-                                                            }
-                                                        });
+                                                            // Delete all cart items for the current user
+                                                            deleteAllCart(user.getId());
+
+                                                            sendOnChannel1();
+                                                            finish();
+                                                        } else {
+                                                            AppUtils.showToast_Short(getApplicationContext(), "Giỏ hàng trống!");
+                                                        }
                                                     }
-                                                    deleteAllCart(user.getId());
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<RListCartItem> call, Throwable t) {
-                                                System.out.println();
-                                            }
-                                        });
-                                        sendOnChannel1();
-                                        finish();
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        // Handle the failure
+                                                    }
+                                                });
                                     }
-                                }
-
-                                @Override
-                                public void onFailure(Call<ROrderObject> call, Throwable t) {
-                                    System.out.println("Lỗi " + t);
-                                }
-                            });
-                            sizeCart = 0;
-                        } else {
-                            AppUtils.showToast_Short(getApplicationContext(), "Giỏ hàng trống!");
-                        }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle the failure
+                                        System.out.println("Lỗi " + e);
+                                    }
+                                });
                     } else {
                         AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại dữ liệu nhập vào");
                     }
@@ -257,6 +312,7 @@ public class InfoCartActivity extends AppCompatActivity {
             });
         }
     }
+
 
     private void setControl() {
         sizeCart = getIntent().getIntExtra("sizecart", 0);

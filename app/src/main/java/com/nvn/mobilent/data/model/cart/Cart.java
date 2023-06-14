@@ -2,43 +2,32 @@ package com.nvn.mobilent.data.model.cart;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
 public class Cart implements Serializable {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("prod_id")
-    @Expose
-    private Integer prodId;
-    @SerializedName("name")
-    @Expose
+    @DocumentId
+    private String id;
+    private String prodId;
     private String name;
-    @SerializedName("image")
-    @Expose
     private String image;
-    @SerializedName("quantity")
-    @Expose
     private Integer quantity;
+    private String userId;
 
-
-    public Cart(Integer id, Integer prodId, String name, String image, Integer quantity) {
-        this.id = id;
-        this.prodId = prodId;
-        this.name = name;
-        this.image = image;
-        this.quantity = quantity;
+    public Cart() {
+        // Default constructor required for Firestore
     }
 
-    public Cart(Integer prodId, String name, String image, Integer quantity) {
+    public Cart(String id,String prodId,String image,String name, Integer quantity, String userId) {
+        this.id = id;
         this.prodId = prodId;
-        this.name = name;
-        this.image = image;
+        this.userId = userId;
         this.quantity = quantity;
+        this.image = image;
+        this.name = name;
     }
 
     public Cart(Cart c) {
@@ -47,22 +36,23 @@ public class Cart implements Serializable {
         this.name = c.getName();
         this.image = c.getImage();
         this.quantity = c.getQuantity();
+        this.userId = c.getUserId();
     }
 
-
-    public Integer getId() {
+    @Exclude
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getProdId() {
+    public String getProdId() {
         return prodId;
     }
 
-    public void setProdId(Integer prodId) {
+    public void setProdId(String prodId) {
         this.prodId = prodId;
     }
 
@@ -90,10 +80,17 @@ public class Cart implements Serializable {
         this.quantity = quantity;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "CART:  " + getProdId() + "|" + getName() + "|" + getQuantity() + "|" + getImage();
     }
-
 }

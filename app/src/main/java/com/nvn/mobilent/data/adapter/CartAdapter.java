@@ -66,6 +66,7 @@ public class CartAdapter extends ArrayAdapter<ACart> {
                 if (slmoi <= 10 && slmoi >= 1) {
                     btnValue.setText(slmoi + "");
                     cart.setQuantity(slmoi);
+                    System.out.println(cart.getId());
                     if (cart.getId() == null) {
                         CartActivity.putCartItem(CartActivity.newIDCart, slmoi);
                     } else {

@@ -9,16 +9,16 @@ public class ListOrderItem implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("order_id")
+    private String id;
+    @SerializedName("orderId")
     @Expose
-    private Integer orderId;
+    private String orderId;
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
-    @SerializedName("prod_id")
+    @SerializedName("prodId")
     @Expose
-    private Integer prodId;
+    private String prodId;
     @SerializedName("price")
     @Expose
     private Integer price;
@@ -29,8 +29,9 @@ public class ListOrderItem implements Serializable {
     @Expose
     private String name;
 
+    public ListOrderItem(){}
 
-    public ListOrderItem(Integer id, Integer orderId, Integer quantity, Integer prodId, Integer price, String image, String name) {
+    public ListOrderItem(String id, String orderId, Integer quantity, String prodId, Integer price, String image, String name) {
         this.id = id;
         this.orderId = orderId;
         this.quantity = quantity;
@@ -50,19 +51,19 @@ public class ListOrderItem implements Serializable {
         this.name = loi.getName();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -74,11 +75,11 @@ public class ListOrderItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getProdId() {
+    public String getProdId() {
         return prodId;
     }
 
-    public void setProdId(Integer prodId) {
+    public void setProdId(String prodId) {
         this.prodId = prodId;
     }
 

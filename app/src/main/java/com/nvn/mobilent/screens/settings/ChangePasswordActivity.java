@@ -17,17 +17,13 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
-import com.nvn.mobilent.data.model.user.RLogin;
+
 import com.nvn.mobilent.data.model.user.User;
-import com.nvn.mobilent.data.api.UserAPI;
+
 import com.nvn.mobilent.utils.AppUtils;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 public class ChangePasswordActivity extends AppCompatActivity {
     EditText oldPass, newPass, newRePass;
@@ -38,7 +34,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private TextInputLayout textInputLayoutPass;
     private TextInputLayout textInputLayoutRepass;
     User user;
-    UserAPI userAPI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +58,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        userAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(UserAPI.class);
-
         if (!AppUtils.haveNetworkConnection(getApplicationContext())) {
             AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
         } else {

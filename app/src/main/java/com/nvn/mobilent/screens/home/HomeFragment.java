@@ -30,23 +30,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.adapter.ProductAdapter;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.cart.Cart;
 import com.nvn.mobilent.data.model.product.Product;
-import com.nvn.mobilent.data.model.product.RProduct;
 import com.nvn.mobilent.data.model.user.User;
-import com.nvn.mobilent.data.api.ProductAPI;
 import com.nvn.mobilent.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -57,7 +48,7 @@ public class HomeFragment extends Fragment {
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
-    ProductAPI productAPI;
+
     ArrayList<Product> productArrayList;
     ProductAdapter productAdapter;
 

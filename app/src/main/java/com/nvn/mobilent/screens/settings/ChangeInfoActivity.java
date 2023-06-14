@@ -24,7 +24,7 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.user.Info;
 import com.nvn.mobilent.data.model.user.User;
-import com.nvn.mobilent.data.api.UserAPI;
+
 import com.nvn.mobilent.utils.AppUtils;
 
 import java.text.ParseException;

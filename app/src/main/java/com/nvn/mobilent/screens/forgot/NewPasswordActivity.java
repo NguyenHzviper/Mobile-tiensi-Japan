@@ -14,7 +14,6 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.base.PathAPI;
 import com.nvn.mobilent.data.base.RetrofitClient;
 import com.nvn.mobilent.data.model.user.RLogin;
-import com.nvn.mobilent.data.api.UserAPI;
 import com.nvn.mobilent.screens.login.LoginActivity;
 import com.nvn.mobilent.utils.AppUtils;
 
@@ -29,7 +28,7 @@ public class NewPasswordActivity extends AppCompatActivity {
     Button button;
     TextInputLayout textInputLayoutPass, textInputLayoutRepass;
 
-    UserAPI userAPI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +41,33 @@ public class NewPasswordActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkData()) {
-                    if (!password.getText().toString().trim().equals(repass.getText().toString().trim())) {
-                        Toast.makeText(getApplicationContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    userAPI = RetrofitClient.getClient(PathAPI.linkAPI).create(UserAPI.class);
-                    userAPI.changePasswordbyPhone(phone.trim(), password.getText().toString().trim()).enqueue(new Callback<RLogin>() {
-                        @Override
-                        public void onResponse(Call<RLogin> call, Response<RLogin> response) {
-                            if (response.isSuccessful()) {
-                                if (response.body().getResult()) {
-                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                    startActivity(intent);
-                                    AppUtils.showToast_Short(getApplicationContext(), "Khôi phục mật khẩu thành công!");
-                                }
-                            } else {
-                                AppUtils.showToast_Short(getApplicationContext(), "Đã có lỗi xảy ra!");
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RLogin> call, Throwable t) {
-                            AppUtils.showToast_Short(getApplicationContext(), "Đã có lỗi xảy ra!");
-                        }
-                    });
-
-                }
+//                if (checkData()) {
+//                    if (!password.getText().toString().trim().equals(repass.getText().toString().trim())) {
+//                        Toast.makeText(getApplicationContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//
+//                    userAPI.changePasswordbyPhone(phone.trim(), password.getText().toString().trim()).enqueue(new Callback<RLogin>() {
+//                        @Override
+//                        public void onResponse(Call<RLogin> call, Response<RLogin> response) {
+//                            if (response.isSuccessful()) {
+//                                if (response.body().getResult()) {
+//                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                                    startActivity(intent);
+//                                    AppUtils.showToast_Short(getApplicationContext(), "Khôi phục mật khẩu thành công!");
+//                                }
+//                            } else {
+//                                AppUtils.showToast_Short(getApplicationContext(), "Đã có lỗi xảy ra!");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<RLogin> call, Throwable t) {
+//                            AppUtils.showToast_Short(getApplicationContext(), "Đã có lỗi xảy ra!");
+//                        }
+//                    });
+//
+//                }
             }
         });
     }

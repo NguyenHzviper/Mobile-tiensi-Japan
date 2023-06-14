@@ -26,11 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.data.base.PathAPI;
-import com.nvn.mobilent.data.base.RetrofitClient;
-import com.nvn.mobilent.data.model.user.RLogin;
 import com.nvn.mobilent.data.model.user.Register;
-import com.nvn.mobilent.data.api.UserAPI;
+
 import com.nvn.mobilent.screens.login.LoginActivity;
 import com.nvn.mobilent.utils.AppUtils;
 
@@ -51,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     RadioButton rb1, rb2;
     Button btnRegister;
-    UserAPI userAPI;
     private TextInputLayout textInputLayoutFirstName;
     private TextInputLayout textInputLayoutLastName;
     private TextInputLayout textInputLayoutBirthDay;

@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="#fdf0d5"
+        android:paddingHorizontal="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +48,12 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avt"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/ic_user_"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.054"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.3" />
@@ -64,7 +65,7 @@
             android:layout_marginStart="12dp"
             android:text="Le Quang Nhat"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="17sp"
             android:textStyle="bold"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +95,7 @@
             android:paddingRight="8dp"
             android:text="Kim Cương   >"
             android:textColor="#457b9d"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/avt"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,9 +140,9 @@
                 android:gravity="center|left"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="15dp"
-                android:text="Tài khoản &amp; Bảo mật"
+                android:text="Tài khoeeeản &amp; Bảo mật"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <View
@@ -160,7 +161,7 @@
                 android:paddingVertical="15dp"
                 android:text="Lịch sử đơn hàng"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <View
@@ -178,7 +179,7 @@
                 android:paddingVertical="15dp"
                 android:text="Trung tâm trợ giúp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
 
@@ -197,10 +198,10 @@
         android:background="@drawable/bg_logout_btn"
         android:gravity="center"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="15dp"
+        android:paddingVertical="10dp"
         android:text="Đăng xuất"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

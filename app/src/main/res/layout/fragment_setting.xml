@@ -37,13 +37,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:background="#fdf0d5"
         android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seperate_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/seperate_toolbar"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -60,12 +62,12 @@
 
         <TextView
             android:id="@+id/welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="135dp"
+            android:layout_height="24dp"
             android:layout_marginStart="12dp"
             android:text="Le Quang Nhat"
             android:textColor="@color/black"
-            android:textSize="17sp"
+            android:textSize="20sp"
             android:textStyle="bold"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -110,7 +112,6 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -140,9 +141,9 @@
                 android:gravity="center|left"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="15dp"
-                android:text="Tài khoeeeản &amp; Bảo mật"
+                android:text="Tài khoản &amp; Bảo mật"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <View
@@ -161,7 +162,7 @@
                 android:paddingVertical="15dp"
                 android:text="Lịch sử đơn hàng"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <View
@@ -179,31 +180,24 @@
                 android:paddingVertical="15dp"
                 android:text="Trung tâm trợ giúp"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
-
-
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_logout_btn"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="Đăng xuất"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:background="@drawable/bg_logout_btn"
-        android:gravity="center"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="10dp"
-        android:text="Đăng xuất"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

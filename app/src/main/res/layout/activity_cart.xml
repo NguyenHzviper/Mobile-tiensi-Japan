@@ -58,7 +58,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_weight="0.30"
+            android:layout_weight="0.35"
             android:paddingBottom="16dp"
             app:layout_constraintStart_toStartOf="parent">
 

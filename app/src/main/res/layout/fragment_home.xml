@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -57,9 +58,12 @@
 
             <ViewFlipper
                 android:id="@+id/viewlipper"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="150dp"
-                android:layout_margin="5dp"></ViewFlipper>
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:radius="20dp"></ViewFlipper>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,10 +75,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/roundbutton"
-                    android:gravity="center"
                     android:text="Sản phẩm mới nhất"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:padding="15dp"></TextView>
@@ -83,13 +85,14 @@
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:paddingVertical="20dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/round_corners"
+                    android:background="@color/gray_light"
+
                     android:padding="20dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -102,7 +105,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nguyễn Văn Nhất\nMobile Developer\n\nHướng dịch vụ 2022"
+                android:text="Homely"
                 android:textColor="#26852A" />
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>

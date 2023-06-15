@@ -21,7 +21,8 @@
     <ImageView
         android:id="@+id/image_productdetail"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
+        android:layout_height="200sp"
+        android:layout_marginTop="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +30,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,8 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên sản phẩm"
+                android:textColor="@color/black"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
 
             <TextView
                 android:id="@+id/tv_quantity"
@@ -68,24 +72,30 @@
         android:layout_height="30sp"
         android:gravity="left"
         android:text="Giá sản phẩm"
-        android:textColor="#854B4B"
-        android:textSize="18sp" />
+        android:textColor="@color/purple_700"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp">
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/spinner"
             android:gravity="center"
-            android:paddingLeft="50dp" />
+            android:paddingLeft="50dp"
+            />
 
         <Button
             android:id="@+id/btn_addcart"
@@ -95,20 +105,27 @@
             android:background="@drawable/roundbutton"
             android:gravity="center"
             android:text="Thêm vào giỏ hàng"
-            android:textColor="@color/whiteTextColor" />
+            android:textColor="@color/whiteTextColor"
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_margin="20dp"
+        >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thông tin chi tiết"
-            android:textColor="@color/colorAccent"
-            android:textSize="20sp" />
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:lineHeight="10dp"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -119,7 +136,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:lineSpacingMultiplier="0"
+                android:lineSpacingExtra="24sp"/>
         </ScrollView>
 
     </LinearLayout>

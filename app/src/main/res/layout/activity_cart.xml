@@ -46,7 +46,6 @@
                     android:id="@+id/listviewcart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                 </ListView>
             </FrameLayout>
         </LinearLayout>
@@ -59,10 +58,8 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.666"
-            android:layout_weight="0.35"
-            android:layout_gravity="end"
-            android:layout_marginBottom="14dp"
+            android:layout_weight="0.30"
+            android:paddingBottom="16dp"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:text="Subtotal"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/totalcart"
@@ -112,7 +109,7 @@
                         android:layout_weight="0.7"
                         android:gravity="end"
                         android:text="$200.00"
-                        android:textSize="17sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -133,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:text="Shipping Cost"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView14"
@@ -142,7 +139,7 @@
                         android:layout_weight="0.7"
                         android:gravity="end"
                         android:text="Freeship"
-                        android:textSize="17sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -165,7 +162,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:text="Total"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/total"
@@ -175,7 +172,7 @@
                         android:gravity="end"
                         android:text="$209.00"
                         android:textColor="@color/black"
-                        android:textSize="26sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -191,7 +188,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingVertical="12dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginBottom="4dp"
                     android:layout_marginHorizontal="12dp"
                     android:text="THANH TOÁN"
                     android:textColor="@color/black"

@@ -32,6 +32,7 @@ public class CartAdapter extends ArrayAdapter<ACart> {
         this.cartArrayList = objects;
     }
 
+
     @Override
     public int getCount() {
         return cartArrayList.size();
@@ -48,10 +49,14 @@ public class CartAdapter extends ArrayAdapter<ACart> {
         TextView btnPlus = convertView.findViewById(R.id.btnplus);
         TextView btnMinus = convertView.findViewById(R.id.btnminus);
         TextView imgDelete = convertView.findViewById(R.id.imagedeletecart);
+        TextView tvtotal = convertView.findViewById(R.id.total_tv);
 
         DecimalFormat df = new DecimalFormat("###,###,###");
-        priceCart.setText(df.format(cart.getPrice()) + "đ");
+        priceCart.setText(df.format(cart.getPrice())+"");
         nameCart.setText(cart.getName());
+
+        tvtotal.setText(cart.getPrice() * cart.getQuantity() + "");
+
         Picasso.get().load(cart.getImage())
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.error)
@@ -65,7 +70,6 @@ public class CartAdapter extends ArrayAdapter<ACart> {
                 if (slmoi <= 10 && slmoi >= 1) {
                     btnValue.setText(slmoi + "");
                     cart.setQuantity(slmoi);
-                    System.out.println(cart.getId());
                     if (cart.getId() == null) {
                         CartActivity.putCartItem(CartActivity.newIDCart, slmoi);
                     } else {

@@ -1,12 +1,9 @@
 package com.nvn.mobilent.screens.cart;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,8 +28,7 @@ import java.util.ArrayList;
 public class CartActivity extends AppCompatActivity {
 
     public static String newIDCart;
-    static TextView tv_TotalCart;
-    Button btnThanhToan, btnMuaHang;
+    static TextView tv_TotalCart, btnThanhToan, total;
     private static User user;
     static ListView lvCart;
     static CartAdapter cartAdapter;
@@ -44,6 +40,7 @@ public class CartActivity extends AppCompatActivity {
 
     public static void putCartItem(String cartItem_id, int quantity) {
         System.out.println("putCartItem:" + cartItem_id + "|" + quantity + "|");
+
         // Update the cart item quantity in Firestore
         db.collection("cart").document(cartItem_id).update("quantity", quantity)
                 .addOnSuccessListener(documentReference -> {
@@ -80,9 +77,7 @@ public class CartActivity extends AppCompatActivity {
                     AppUtils.showToast_Short(tv_TotalCart.getContext(), "Đã xoá sản phẩm khỏi giỏ hàng!");
                     addCart(null);
                 })
-                .addOnFailureListener(e -> {
-                    AppUtils.showToast_Short(tv_TotalCart.getContext(), "Lỗi xoá!");
-                });
+                .addOnFailureListener(e -> AppUtils.showToast_Short(tv_TotalCart.getContext(), "Lỗi xoá!"));
     }
 
     public static void update() {
@@ -113,14 +108,10 @@ public class CartActivity extends AppCompatActivity {
                                     ACart aCart = new ACart(item, product.getPrice());
                                     addCart(aCart);
                                 })
-                                .addOnFailureListener(e -> {
-                                    Log.d("ERROR: ", e.toString());
-                                });
+                                .addOnFailureListener(e -> Log.d("ERROR: ", e.toString()));
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Log.d("ERROR: ", e.toString());
-                });
+                .addOnFailureListener(e -> Log.d("ERROR: ", e.toString()));
         cartAdapter.notifyDataSetChanged();
         update();
     }
@@ -136,7 +127,8 @@ public class CartActivity extends AppCompatActivity {
             money += item.getQuantity() * item.getPrice();
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
-        tv_TotalCart.setText(df.format(money) + " VNĐ");
+        tv_TotalCart.setText(df.format(money) + "đ");
+        total.setText(df.format(money) + "đ");
         update();
     }
 
@@ -144,7 +136,7 @@ public class CartActivity extends AppCompatActivity {
         if (cartArrayList.get(position).getId() == null) {
             deleteCartItem(newIDCart);
             addCart(null);
-            //  loadListCart();
+//              loadListCart();
         } else {
             deleteCartItem(cartArrayList.get(position).getId());
             //    loadListCart();
@@ -200,11 +192,11 @@ public class CartActivity extends AppCompatActivity {
         tv_NoticeCart = findViewById(R.id.tv_noticecart);
         tv_TotalCart = findViewById(R.id.totalcart);
         btnThanhToan = findViewById(R.id.btnThanhToan);
-        btnMuaHang = findViewById(R.id.btnTTMuaHang);
         toolbar = findViewById(R.id.toolbarcart);
+        total = findViewById(R.id.total);
 
         cartArrayList = new ArrayList<>();
-        cartAdapter = new CartAdapter(getApplicationContext(), R.layout.linecartitem, cartArrayList);
+        cartAdapter = new CartAdapter(getApplicationContext(), R.layout.line_cart_item, cartArrayList);
         lvCart.setAdapter(cartAdapter);
     }
 
@@ -230,9 +222,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void setEventButton() {
-        btnMuaHang.setOnClickListener(view -> {
-            finish();
-        });
         btnThanhToan.setOnClickListener(view -> {
             if (cartArrayList.size() <= 0) {
                 AppUtils.showToast_Short(getApplicationContext(), "Giỏ hàng trống!");

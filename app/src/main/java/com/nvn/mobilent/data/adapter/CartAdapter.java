@@ -37,7 +37,6 @@ public class CartAdapter extends ArrayAdapter<ACart> {
         return cartArrayList.size();
     }
 
-    @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(resource, null);
@@ -45,13 +44,13 @@ public class CartAdapter extends ArrayAdapter<ACart> {
         TextView priceCart = convertView.findViewById(R.id.tv_pricecart);
         ImageView imageCart = convertView.findViewById(R.id.iv_cart);
         ACart cart = cartArrayList.get(position);
-        Button btnValue = convertView.findViewById(R.id.btnvalue);
-        Button btnPlus = convertView.findViewById(R.id.btnplus);
-        Button btnMinus = convertView.findViewById(R.id.btnminus);
-        ImageView imgDelete = convertView.findViewById(R.id.imagedeletecart);
+        TextView btnValue = convertView.findViewById(R.id.btnvalue);
+        TextView btnPlus = convertView.findViewById(R.id.btnplus);
+        TextView btnMinus = convertView.findViewById(R.id.btnminus);
+        TextView imgDelete = convertView.findViewById(R.id.imagedeletecart);
 
         DecimalFormat df = new DecimalFormat("###,###,###");
-        priceCart.setText(df.format(cart.getPrice()) + " VNĐ");
+        priceCart.setText(df.format(cart.getPrice()) + "đ");
         nameCart.setText(cart.getName());
         Picasso.get().load(cart.getImage())
                 .placeholder(R.drawable.no_image)

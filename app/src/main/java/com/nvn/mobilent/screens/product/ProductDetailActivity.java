@@ -24,15 +24,12 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.cart.Cart;
 import com.nvn.mobilent.data.model.product.Product;
-import com.nvn.mobilent.data.model.cart.RListCartItem;
-import com.nvn.mobilent.data.model.cart.R_Cart;
 import com.nvn.mobilent.data.model.user.User;
 
 import com.nvn.mobilent.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -154,8 +151,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     private void loadInfo() {

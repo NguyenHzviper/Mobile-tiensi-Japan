@@ -3,6 +3,7 @@ package com.nvn.mobilent.screens.settings;
 import static java.security.AccessController.getContext;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.nvn.mobilent.R;
 public class ViewAccountInfo extends AppCompatActivity {
 
     TextView tv_password;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,7 @@ public class ViewAccountInfo extends AppCompatActivity {
         setContentView(R.layout.fragment_view_account_info);
 
         setControl();
+        setActionBar();
         setEvent();
     }
 
@@ -36,5 +39,14 @@ public class ViewAccountInfo extends AppCompatActivity {
 
     private void setControl(){
         tv_password = findViewById(R.id.tv_password);
+        toolbar = findViewById(R.id.toolbar2);
+    }
+
+    private void setActionBar() {
+        setSupportActionBar(toolbar); // hỗ trợ toolbar như actionbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set nút backhome toolbar
+        toolbar.setNavigationOnClickListener(view -> {
+            finish();
+        });
     }
 }

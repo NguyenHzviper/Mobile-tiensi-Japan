@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +50,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
     private TextInputLayout textInputLayoutEmail;
     private TextInputLayout textInputLayoutGender;
 
+
     private String regexName = "[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆ fFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTu UùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]+";
     private String regexEmail = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$";
     private String regexDate = "^(3[01]|[12][0-9]|0[1-9]|[1-9])/(1[0-2]|0[1-9]|[1-9])/[0-9]{4}$";
@@ -67,9 +69,9 @@ public class ChangeInfoActivity extends AppCompatActivity {
         user = DataLocalManager.getUser();
         setControl();
         actionToolBar();
-        loadDefault();
-        catchData();
-        setEvent();
+//        loadDefault();
+//        catchData();
+//        setEvent();
     }
 
     String convertDate(String d) {
@@ -213,23 +215,23 @@ public class ChangeInfoActivity extends AppCompatActivity {
     private void setControl() {
         toolbar = findViewById(R.id.toolbar_changeinfo);
         firstName = findViewById(R.id.changefname);
-        lastName = findViewById(R.id.changelname);
-        birthday = findViewById(R.id.changebirthday);
-        address = findViewById(R.id.changeaddress);
-        phone = findViewById(R.id.changephone);
-        email = findViewById(R.id.changeemail);
-
-        rb1 = findViewById(R.id.c_rbnam);
-        rb2 = findViewById(R.id.c_rbnu);
-        btnChangeInfo = findViewById(R.id.btnthaydoithongtin);
-
+//        lastName = findViewById(R.id.changelname);
+//        birthday = findViewById(R.id.changebirthday);
+//        address = findViewById(R.id.changeaddress);
+//        phone = findViewById(R.id.changephone);
+//        email = findViewById(R.id.changeemail);
+//
+//        rb1 = findViewById(R.id.c_rbnam);
+//        rb2 = findViewById(R.id.c_rbnu);
+//        btnChangeInfo = findViewById(R.id.btnthaydoithongtin);
+//
         textInputLayoutFirstName = findViewById(R.id.til_changefname);
-        textInputLayoutLastName = findViewById(R.id.til_changelname);
-        textInputLayoutBirthDay = findViewById(R.id.til_changebirthday);
-        textInputLayoutAddress = findViewById(R.id.til_changeaddress);
-        textInputLayoutPhone = findViewById(R.id.til_changephone);
-        textInputLayoutEmail = findViewById(R.id.til_changeemail);
-        textInputLayoutGender = findViewById(R.id.til_changegender);
+//        textInputLayoutLastName = findViewById(R.id.til_changelname);
+//        textInputLayoutBirthDay = findViewById(R.id.til_changebirthday);
+//        textInputLayoutAddress = findViewById(R.id.til_changeaddress);
+//        textInputLayoutPhone = findViewById(R.id.til_changephone);
+//        textInputLayoutEmail = findViewById(R.id.til_changeemail);
+//        textInputLayoutGender = findViewById(R.id.til_changegender);
     }
 
     private void actionToolBar() {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#11CFC5</color>
@@ -27,5 +26,8 @@
     <color name="darkGray">#27282c</color>
     <color name="mediumGray">#262523</color>
     <color name="deep">#2F2B64</color>
+    <color name="gray_light">#FAFAFA</color>
+    <color name="blue_primary">#3669C9</color>
+
     <color name="light_blue">#bde0fe</color>
 </resources>

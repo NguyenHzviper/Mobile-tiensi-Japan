@@ -13,26 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--            <androidx.appcompat.widget.Toolbar-->
-            <!--                android:id="@+id/toolbar"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="?actionBarSize"-->
-            <!--                android:background="#EDEAEA"-->
-            <!--                app:titleTextColor="@color/login_bk_color">-->
-
-            <!--                <androidx.appcompat.widget.SearchView-->
-            <!--                    android:id="@+id/timkiem"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    app:queryHint="Nhập từ khoá cần tìm kiếm tại đây"-->
-
-            <!--                    />-->
-            <!--            </androidx.appcompat.widget.Toolbar>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +32,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/round_corners">
+                    android:background="@drawable/round_corners"
+                  >
 
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/timkiem"
@@ -54,12 +42,26 @@
                         app:queryHint="Nhập từ khoá tìm kiếm" />
                 </androidx.appcompat.widget.Toolbar>
             </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Homely"
+                    android:textColor="@color/blue_primary"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="15dp"></TextView>
 
             <ViewFlipper
-                android:id="@+id/viewlipper"
+                android:id="@+id/viewflipper"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_margin="5dp"></ViewFlipper>
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:radius="30px"
+                android:padding="10dp"></ViewFlipper>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,11 +73,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/roundbutton"
-                    android:gravity="center"
                     android:text="Sản phẩm mới nhất"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     android:padding="15dp"></TextView>
 
@@ -83,13 +83,14 @@
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:paddingVertical="20dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/round_corners"
+                    android:background="@color/gray_light"
+
                     android:padding="20dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -102,8 +103,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nguyễn Văn Nhất\nMobile Developer\n\nHướng dịch vụ 2022"
+                android:text="Homely"
                 android:textColor="#26852A" />
         </com.google.android.material.navigation.NavigationView>
+
     </androidx.drawerlayout.widget.DrawerLayout>
 </FrameLayout>

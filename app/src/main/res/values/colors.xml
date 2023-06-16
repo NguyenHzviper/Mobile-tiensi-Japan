@@ -23,6 +23,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#393d40</color>
+    <color name="red">#ff0000</color>
     <color name="darkGray">#27282c</color>
     <color name="mediumGray">#262523</color>
     <color name="deep">#2F2B64</color>
@@ -30,4 +31,7 @@
     <color name="blue_primary">#3669C9</color>
 
     <color name="light_blue">#bde0fe</color>
+
+    <color name="input_form_background">#eee</color>
+    <color name="input_form_boxstroke_color">#999</color>
 </resources>

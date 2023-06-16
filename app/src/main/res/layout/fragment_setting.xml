@@ -60,9 +60,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.3" />
 
+
         <TextView
             android:id="@+id/welcome"
-            android:layout_width="135dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_marginStart="12dp"
             android:text="Le Quang Nhat"
@@ -73,19 +74,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/avt"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.363" />
+            app:layout_constraintVertical_bias="0.316" />
 
-        <ImageView
+        <TextView
             android:id="@+id/editPersonalInfo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_fluent_signature_regular_icon"
-            app:layout_constraintBottom_toBottomOf="@+id/welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="Sửa thông tin"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="@+id/avt"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/welcome"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.647" />
+            app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
         <TextView
             android:id="@+id/customer_rank"
@@ -111,16 +111,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="338dp"
             android:background="@drawable/bg_setting_form"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
@@ -130,7 +131,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.333">
 
             <TextView
                 android:id="@+id/account_info"

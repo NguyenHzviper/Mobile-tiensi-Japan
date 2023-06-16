@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
+    android:layout_marginHorizontal="16dp"
     tools:context=".screens.settings.ChangeInfoActivity">
 
 
@@ -23,12 +24,8 @@
         android:id="@+id/til_changefname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="16dp"
-        app:boxStrokeColor="@color/black"
-        android:background="#eee"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:boxStrokeWidth="0dp"
+        style="@style/customTextInputLayout"
+        app:counterMaxLength="20"
         android:hint="Họ">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -37,5 +34,155 @@
             android:layout_height="wrap_content"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changelname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        app:counterMaxLength="20"
+        android:hint="Tên">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changelname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ngày Sinh"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="6dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#666"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="9">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_changebirthday_d"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/customTextInputLayout"
+            android:layout_weight="3"
+            android:layout_marginHorizontal="15dp"
+            android:hint="Ngày">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/changebirthday_d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_changebirthday_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            style="@style/customTextInputLayout"
+            android:layout_weight="3"
+            android:hint="Tháng">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/changebirthday_m"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_changebirthday_y"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/customTextInputLayout"
+            android:layout_marginHorizontal="15dp"
+            android:layout_weight="3"
+            android:hint="Năm">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/changebirthday_y"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changeaddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        app:helperTextTextColor="@color/red"
+        android:hint="Địa chỉ">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changeaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changephone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        app:helperTextTextColor="@color/red"
+        android:hint="Số Điện Thoại">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changeemail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        android:enabled="false"
+        android:hint="Email">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/changeemail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/btn_update_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cập nhật thông tin"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:layout_marginVertical="20dp"
+        android:background="@drawable/bg_checkout_btn"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#333"/>
+
 
 </LinearLayout>

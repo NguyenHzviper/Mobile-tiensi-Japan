@@ -56,5 +56,8 @@
         <item name="android:paddingLeft">5dp</item>
     </style>
 
-
+    <style name="customTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/input_form_boxstroke_color</item>
+        <item name="background">@color/input_form_background</item>
+    </style>
 </resources>

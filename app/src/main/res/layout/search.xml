@@ -15,7 +15,7 @@
             android:id="@+id/editSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập tên sản phẩm cần tìm kiếm"
+            android:hint="Tìm kiếm"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorGrey"
             android:textSize="17sp">
@@ -25,13 +25,16 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_light">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_searchMovie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:background="@color/gray_light">
 
         </androidx.recyclerview.widget.RecyclerView>
 

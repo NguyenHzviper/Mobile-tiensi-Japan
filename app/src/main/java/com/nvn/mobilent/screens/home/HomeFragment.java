@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
 
     private void setControl(View view) {
         toolbar = view.findViewById(R.id.toolbar);
-        viewFlipper = view.findViewById(R.id.viewlipper);
+        viewFlipper = view.findViewById(R.id.viewflipper);
         recyclerView = view.findViewById(R.id.recyclerview);
         navigationView = view.findViewById(R.id.navigationview);
         drawerLayout = view.findViewById(R.id.drawerlayout);

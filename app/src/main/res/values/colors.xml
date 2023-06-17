@@ -31,4 +31,5 @@
 
     <color name="input_form_background">#eee</color>
     <color name="input_form_boxstroke_color">#999</color>
+    <color name="primary_color">#a86a24</color>
 </resources>

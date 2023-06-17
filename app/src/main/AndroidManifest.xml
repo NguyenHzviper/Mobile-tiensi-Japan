@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".data.base.NotificationApp"
         android:allowBackup="true"
@@ -20,9 +19,10 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+
         <activity
             android:name=".screens.category.ChartActivity"
             android:exported="false" />
@@ -32,18 +32,14 @@
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-
         </provider>
-
 
         <activity
             android:name=".screens.settings.ViewAccountInfo"
             android:exported="false" />
-
         <activity
             android:name=".screens.forgot.NewPasswordActivity"
             android:exported="false" />
@@ -84,7 +80,7 @@
             android:name=".screens.category.CategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.login.LoginActivity"
+            android:name=".screens.Intro"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,6 +88,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".screens.login.LoginActivity"
+            android:exported="false">
+
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />

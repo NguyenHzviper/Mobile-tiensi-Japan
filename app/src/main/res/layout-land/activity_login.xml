@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/login_bk_color"
+    android:background="@color/white"
     android:focusableInTouchMode="true"
     android:gravity="center"
     tools:context=".screens.login.LoginActivity">
@@ -80,7 +80,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Forgot Password?"
                 android:textColor="@color/primaryTextColor"
-                android:textSize="@dimen/newsMoreTextSize" />x
+                android:textSize="@dimen/newsMoreTextSize" />
 
             <Button
                 android:id="@+id/cirLoginButton"
@@ -90,7 +90,7 @@
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:background="@drawable/btn_bg_design"
                 android:text="Login"
-                android:textColor="@color/whiteTextColor" />
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/parent"
@@ -114,7 +114,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="3"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@color/black" />
 
                 <TextView
                     style="@style/viewParent.headerText.NoMode"
@@ -129,7 +129,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="3"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@color/black" />
 
             </LinearLayout>
 

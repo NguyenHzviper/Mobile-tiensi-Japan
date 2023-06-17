@@ -1,186 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@color/login_bk_color"
     android:focusableInTouchMode="true"
-    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="16dp"
     tools:context=".screens.settings.ChangeInfoActivity">
 
 
-    <ScrollView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_changeinfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true">
+        android:layout_height="?actionBarSize"
+        android:background="@color/white"
+        app:title="THÔNG TIN CÁ NHÂN"
+        app:titleTextColor="@color/black">
 
-        <LinearLayout
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changefname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/customTextInputLayout"
+        app:counterMaxLength="20"
+        android:hint="Họ">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changefname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changelname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        app:counterMaxLength="20"
+        android:hint="Tên">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_changeinfo"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="@color/primaryTextColor"
-                app:title="THÔNG TIN CÁ NHÂN"
-                app:titleTextColor="@color/white">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changelname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            </androidx.appcompat.widget.Toolbar>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ngày Sinh"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="6dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#666"/>
 
-            <androidx.cardview.widget.CardView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="9">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_changebirthday_d"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/customTextInputLayout"
+            android:layout_weight="3"
+            android:layout_marginHorizontal="15dp"
+            android:hint="Ngày">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/changebirthday_d"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardBackgroundColor="@color/whiteTextColor"
-                app:cardCornerRadius="10dp">
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_changebirthday_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            style="@style/customTextInputLayout"
+            android:layout_weight="3"
+            android:hint="Tháng">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changefname"
-                        style="@style/parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/changebirthday_m"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                        <EditText
-                            android:id="@+id/changefname"
-                            style="@style/modifiedEditText"
-                            android:drawableLeft="@drawable/ic_baseline_fullname"
-                            android:drawablePadding="10dp"
-                            android:hint="Tên"
-                            android:inputType="textPersonName"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_changebirthday_y"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/customTextInputLayout"
+            android:layout_marginHorizontal="15dp"
+            android:layout_weight="3"
+            android:hint="Năm">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changelname"
-                        style="@style/parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/changebirthday_y"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                        <EditText
-                            android:id="@+id/changelname"
-                            style="@style/modifiedEditText"
-                            android:drawableLeft="@drawable/ic_baseline_fullname"
-                            android:drawablePadding="10dp"
-                            android:hint="Họ"
-                            android:inputType="textPersonName"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changegender"
-                        style="@style/parent">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changeaddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        app:helperTextTextColor="@color/red"
+        android:hint="Địa chỉ">
 
-                        <RadioGroup
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changeaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="20dp"
-                                android:drawableLeft="@drawable/ic_baseline_fullname"
-                                android:drawablePadding="10dp"
-                                android:hint="Giới tính"
-                                android:textSize="14dp" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changephone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        app:helperTextTextColor="@color/red"
+        android:hint="Số Điện Thoại">
 
-                            <RadioButton
-                                android:id="@+id/c_rbnam"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="20dp"
-                                android:text="Nam" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-                            <RadioButton
-                                android:id="@+id/c_rbnu"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nữ" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_changeemail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/customTextInputLayout"
+        android:enabled="false"
+        android:hint="Email">
 
-                        </RadioGroup>
+        <com.google.android.material.textfield.TextInputEditText
 
-                    </com.google.android.material.textfield.TextInputLayout>
+            android:id="@+id/changeemail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changebirthday"
-                        style="@style/parent">
+    <TextView
+        android:id="@+id/btn_update_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cập nhật thông tin"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:layout_marginVertical="20dp"
+        android:background="@drawable/bg_checkout_btn"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#333"/>
 
-                        <EditText
-                            android:id="@+id/changebirthday"
-                            style="@style/modifiedEditText"
-                            android:drawableLeft="@drawable/ic_baseline_calendar"
-                            android:drawablePadding="10dp"
-                            android:hint="Ngày sinh"
-                            android:inputType="date" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changeaddress"
-                        style="@style/parent">
-
-                        <EditText
-                            android:id="@+id/changeaddress"
-                            style="@style/modifiedEditText"
-                            android:drawableLeft="@drawable/ic_baseline_location_on_24"
-                            android:drawablePadding="10dp"
-                            android:hint="Địa chỉ"
-                            android:inputType="text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changephone"
-                        style="@style/parent">
-
-                        <EditText
-                            android:id="@+id/changephone"
-                            style="@style/modifiedEditText"
-                            android:drawableLeft="@drawable/ic_baseline_phone"
-                            android:drawablePadding="10dp"
-                            android:hint="Số điện thoại"
-                            android:inputType="phone"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_changeemail"
-                        style="@style/parent">
-
-                        <EditText
-                            android:id="@+id/changeemail"
-                            style="@style/modifiedEditText"
-                            android:drawableLeft="@drawable/ic_baseline_email"
-                            android:drawablePadding="10dp"
-                            android:hint="@string/login_email_hint"
-                            android:focusable="false"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/btnthaydoithongtin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="@dimen/loginViewsMargin"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/btn_bg_design"
-                        android:text="Thay đổi thông tin"
-                        android:textColor="@color/whiteTextColor" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+</LinearLayout>

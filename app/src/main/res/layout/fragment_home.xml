@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -42,26 +40,6 @@
                         app:queryHint="Nhập từ khoá tìm kiếm" />
                 </androidx.appcompat.widget.Toolbar>
             </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Homely"
-                    android:textColor="@color/blue_primary"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:padding="15dp"></TextView>
-
-            <ViewFlipper
-                android:id="@+id/viewflipper"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:gravity="center"
-                android:layout_margin="20dp"
-                android:radius="30px"
-                android:padding="10dp"></ViewFlipper>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +50,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:text="Sản phẩm mới nhất"
                     android:textColor="@color/black"
                     android:textSize="17sp"
@@ -84,9 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingVertical="20dp"
-                    android:layout_marginTop="5dp"
                     android:background="@color/gray_light"
-
                     android:padding="20dp">
 
                 </androidx.recyclerview.widget.RecyclerView>

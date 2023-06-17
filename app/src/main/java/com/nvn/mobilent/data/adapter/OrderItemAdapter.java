@@ -46,9 +46,9 @@ public class OrderItemAdapter extends ArrayAdapter<ListOrderItem> {
         TextView money = convertView.findViewById(R.id.moneyorderdetail);
         ListOrderItem itemOrder = orderItemArrayList.get(position);
         name.setText(itemOrder.getName());
-        price.setText("Đơn giá: " + itemOrder.getPrice() + "");
-        amount.setText("Số lượng: " + itemOrder.getQuantity() + "");
-        money.setText("Tổng tiền: " + itemOrder.getQuantity() * itemOrder.getPrice() + " VNĐ");
+        price.setText(itemOrder.getPrice() + "");
+        amount.setText(itemOrder.getQuantity() + "");
+        money.setText(itemOrder.getQuantity() * itemOrder.getPrice() + "");
         Picasso.get().load(itemOrder.getImage())
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.no_image1)

@@ -1,19 +1,16 @@
 package com.nvn.mobilent.screens.settings;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,29 +33,21 @@ import java.util.Map;
 
 
 public class ChangeInfoActivity extends AppCompatActivity {
-    EditText firstName, lastName, birthday, address, phone, email;
-    RadioButton rb1, rb2;
-    Button btnChangeInfo;
+    EditText firstName, lastName, birthday_d, birthday_m, birthday_y, address, phone, email;
+    TextView btnChangeInfo;
     Toolbar toolbar;
 
-    private TextInputLayout textInputLayoutFirstName;
-    private TextInputLayout textInputLayoutLastName;
-    private TextInputLayout textInputLayoutBirthDay;
-    private TextInputLayout textInputLayoutAddress;
-    private TextInputLayout textInputLayoutPhone;
-    private TextInputLayout textInputLayoutEmail;
-    private TextInputLayout textInputLayoutGender;
+    private TextInputLayout textInputLayoutFirstName, textInputLayoutLastName, textInputLayoutBirthDay_d,
+            textInputLayoutBirthDay_m, textInputLayoutBirthDay_y,
+            textInputLayoutAddress, textInputLayoutPhone;
+
 
     private String regexName = "[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆ fFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTu UùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]+";
-    private String regexEmail = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$";
-    private String regexDate = "^(3[01]|[12][0-9]|0[1-9]|[1-9])/(1[0-2]|0[1-9]|[1-9])/[0-9]{4}$";
+    private String regexEmail = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$";
     private String regexPhone = "[0]{1}\\d{9}";
-
     private User user;
-
     public void onBackPressed() {
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,44 +59,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
         loadDefault();
         catchData();
         setEvent();
-    }
-
-    String convertDate(String d) {
-        String pattern = "(0?[1-9]|[1-2]\\d|3[0-1])/(0?[1-9]|1[0-2])/(19|20)\\d{2}";
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat f1 = new SimpleDateFormat("MM-dd-yyyy");
-        Date date = new Date();
-        if (!d.matches(pattern)) {
-            return "1";
-        } else {
-            f1.setLenient(false);
-            try {
-                date = f1.parse(d);
-                return f.format(date);
-            } catch (ParseException e) {
-                System.out.println("Error fDate dd/MM/yyyy!");
-            }
-            return "1";
-        }
-    }
-
-    String convertDateDB(String d) {
-        String pattern = "(0?[1-9]|[1-2]\\d|3[0-1])/(0?[1-9]|1[0-2])/(19|20)\\d{2}";
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat f1 = new SimpleDateFormat("MM-dd-yyyy");
-        Date date = new Date();
-        if (!d.matches(pattern)) {
-            return "1";
-        } else {
-            f.setLenient(false);
-            try {
-                date = f.parse(d);
-                return f1.format(date);
-            } catch (ParseException e) {
-                System.out.println("Error fDate!");
-            }
-            return "1";
-        }
     }
 
     private void updateUser(User info){
@@ -122,7 +73,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
         updatedFields.put("lastname", info.getLastname());
         updatedFields.put("address", info.getAddress());
         updatedFields.put("phone", info.getPhone());
-        updatedFields.put("gender", info.getGender());
         updatedFields.put("birthday", info.getBirthday());
 
         if (currentUser != null) {
@@ -147,30 +97,29 @@ public class ChangeInfoActivity extends AppCompatActivity {
                             AppUtils.showToast_Short(getApplicationContext(), "Lỗi cập nhật thông tin rồi");
                         }
                     });
-
-
         }
-
     }
 
     private void setEvent() {
-
         btnChangeInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkData()) {
-                    int gender = rb1.isChecked() ? 0 : 1;
+                    String day = birthday_d.getText().toString();
+                    String month = birthday_m.getText().toString();
+                    String year = birthday_y.getText().toString();
+                    String birthday = String.format("%s-%s-%s", day, month, year);
+                    System.out.println(birthday);
                     Info info = new Info(
                             user.getId(),
-                            email.getText().toString().trim(),
+                            user.getEmail(),
                             firstName.getText().toString().trim(),
                             lastName.getText().toString().trim(),
                             address.getText().toString().trim(),
                             phone.getText().toString().trim(),
-                            gender,
-                            birthday.getText().toString().trim()
+                            user.getGender(),
+                            birthday
                     );
-
 
                     if (!AppUtils.haveNetworkConnection(getApplicationContext())) {
                         AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
@@ -180,7 +129,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
                         user.setLastname(info.getLastname());
                         user.setAddress(info.getAddress());
                         user.setPhone(info.getPhone());
-                        user.setGender(info.getGender());
                         user.setBirthday(info.getBirthday());
                         DataLocalManager.setUser(user);
 
@@ -194,42 +142,41 @@ public class ChangeInfoActivity extends AppCompatActivity {
     }
 
     private void loadDefault() {
+        String[] birthday = user.getBirthday().split("-");
+
+        birthday_d.setText(birthday[0]);
+        birthday_m.setText(birthday[1]);
+        birthday_y.setText(birthday[2]);
+
         firstName.setText(user.getFirstname());
         lastName.setText(user.getLastname());
-        birthday.setText(user.getBirthday());
         address.setText(user.getAddress());
         phone.setText(user.getPhone());
         email.setText(user.getEmail());
-        if (user.getGender() == 0) {
-            rb1.setChecked(true);
-            rb2.setChecked(false);
-        } else {
-            rb2.setChecked(true);
-            ;
-            rb1.setChecked(false);
-        }
     }
 
     private void setControl() {
         toolbar = findViewById(R.id.toolbar_changeinfo);
         firstName = findViewById(R.id.changefname);
         lastName = findViewById(R.id.changelname);
-        birthday = findViewById(R.id.changebirthday);
+
+        birthday_d = findViewById(R.id.changebirthday_d);
+        birthday_m = findViewById(R.id.changebirthday_m);
+        birthday_y = findViewById(R.id.changebirthday_y);
+
         address = findViewById(R.id.changeaddress);
         phone = findViewById(R.id.changephone);
         email = findViewById(R.id.changeemail);
 
-        rb1 = findViewById(R.id.c_rbnam);
-        rb2 = findViewById(R.id.c_rbnu);
-        btnChangeInfo = findViewById(R.id.btnthaydoithongtin);
+        btnChangeInfo = findViewById(R.id.btn_update_user_info);
 
         textInputLayoutFirstName = findViewById(R.id.til_changefname);
         textInputLayoutLastName = findViewById(R.id.til_changelname);
-        textInputLayoutBirthDay = findViewById(R.id.til_changebirthday);
+        textInputLayoutBirthDay_d = findViewById(R.id.til_changebirthday_d);
+        textInputLayoutBirthDay_y = findViewById(R.id.til_changebirthday_m);
+        textInputLayoutBirthDay_m = findViewById(R.id.til_changebirthday_y);
         textInputLayoutAddress = findViewById(R.id.til_changeaddress);
         textInputLayoutPhone = findViewById(R.id.til_changephone);
-        textInputLayoutEmail = findViewById(R.id.til_changeemail);
-        textInputLayoutGender = findViewById(R.id.til_changegender);
     }
 
     private void actionToolBar() {
@@ -253,26 +200,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
             textInputLayoutLastName.setError("Không được để trống!");
             return false;
         }
-        if (!rb1.isChecked() && !rb2.isChecked()) {
-            textInputLayoutGender.setError("Không được để trống!");
-            return false;
-        } else {
-            textInputLayoutGender.setError(null);
-        }
-        if (birthday.getText().toString().trim().equals("")) {
-            textInputLayoutBirthDay.setError("Không được để trống!");
-            return false;
-        }
         if (address.getText().toString().trim().equals("")) {
             textInputLayoutAddress.setError("Không được để trống!");
             return false;
         }
         if (phone.getText().toString().trim().equals("")) {
             textInputLayoutPhone.setError("Không được để trống!");
-            return false;
-        }
-        if (email.getText().toString().trim().equals("")) {
-            textInputLayoutEmail.setError("Không được để trống!");
             return false;
         }
 
@@ -283,10 +216,16 @@ public class ChangeInfoActivity extends AppCompatActivity {
         if (!(textInputLayoutLastName.getError() == null)) {
             return false;
         }
-        if (!(textInputLayoutGender.getError() == null)) {
+
+        if (!(textInputLayoutBirthDay_d.getError() == null)) {
             return false;
         }
-        if (!(textInputLayoutBirthDay.getError() == null)) {
+
+        if (!(textInputLayoutBirthDay_m.getError() == null)) {
+            return false;
+        }
+
+        if (!(textInputLayoutBirthDay_y.getError() == null)) {
             return false;
         }
         if (!(textInputLayoutAddress.getError() == null)) {
@@ -295,52 +234,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         if (!(textInputLayoutPhone.getError() == null)) {
             return false;
         }
-        if (!(textInputLayoutEmail.getError() == null)) {
-            return false;
-        }
-
         return check;
-    }
-
-    private void catchBirthDay() {
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        birthday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ChangeInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        month = month + 1; // 0-11
-                        String date = day + "/" + month + "/" + year;
-                        birthday.setText(date);
-                    }
-                }, year, month, day);
-                datePickerDialog.show();
-            }
-        });
-        birthday.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!charSequence.toString().isEmpty() && !charSequence.toString().matches(regexDate)) {
-                    textInputLayoutBirthDay.setError("Định dạng dd/MM/yyyy");
-                } else {
-                    textInputLayoutBirthDay.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
     }
 
     private void catchData() {
@@ -380,7 +274,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
             }
         });
-        catchBirthDay();
         // Address chữ và số
         phone.addTextChangedListener(new TextWatcher() {
             @Override
@@ -389,31 +282,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!charSequence.toString().isEmpty() && !charSequence.toString().matches(regexPhone)) {
+                if (!charSequence.toString().isEmpty()
+                        && !charSequence.toString().matches(regexPhone)) {
                     textInputLayoutPhone.setError("Số điện thoại gồm 10 số và bắt đầu bằng 0");
                 } else {
                     textInputLayoutPhone.setError(null);
                 }
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!charSequence.toString().isEmpty() && !charSequence.toString().matches(regexEmail)) {
-                    textInputLayoutEmail.setError("Email có định dạng username@abc.com");
-                } else {
-                    textInputLayoutEmail.setError(null);
-                }
-            }
-
             @Override
             public void afterTextChanged(Editable editable) {
             }

@@ -106,6 +106,8 @@
             android:gravity="center"
             android:text="Add to cart"
             android:textColor="@color/whiteTextColor"
+            android:text="Thêm vào giỏ hàng"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 

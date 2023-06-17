@@ -55,8 +55,7 @@ public class SettingFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 18;
     ArrayList<SettingItem> arrayList;
     SettingAdapter settingAdapter;
-    TextView tv_pass, tv_cartstatus, tv_logout, welcome, account_info;
-    ImageView edit_profile_btn;
+    TextView tv_cartstatus, tv_logout, welcome, account_info, edit_profile_btn;
     User user;
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;

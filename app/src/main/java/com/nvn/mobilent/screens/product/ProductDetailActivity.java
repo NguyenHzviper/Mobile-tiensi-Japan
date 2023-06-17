@@ -156,7 +156,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void loadInfo() {
         product = (Product) getIntent().getSerializableExtra("product");
         name.setText(product.getName());
-        quantity.setText("Số lượng tồn: " + product.getQuantity());
+        /*quantity.setText("Số lượng tồn: " + product.getQuantity());*/
         DecimalFormat df = new DecimalFormat("###,###,###");
         price.setText(df.format(product.getPrice()) + " VNĐ");
         detail.setText(product.getDetail());
@@ -190,7 +190,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void setControl() {
         toolbar = findViewById(R.id.toolbar_productdetail);
         name = findViewById(R.id.tv_nameproductdetail);
-        quantity = findViewById(R.id.tv_quantity);
+        /*quantity = findViewById(R.id.tv_quantity);*/
         spinner = findViewById(R.id.spinner);
         price = findViewById(R.id.tv_priceproduct);
         detail = findViewById(R.id.tv_productdetail);

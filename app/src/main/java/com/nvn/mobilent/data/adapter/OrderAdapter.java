@@ -42,6 +42,7 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         TextView statusOrder = convertView.findViewById(R.id.statusorder);
         Order order = orderArrayList.get(position);
         dateOder.setText(order.getBuyDate());
+        System.out.println("status order" + statusOrder.toString());
         return convertView;
     }
 }

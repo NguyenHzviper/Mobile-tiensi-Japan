@@ -92,7 +92,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:text="Đặt hàng"
-            android:textColor="@color/whiteTextColor" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </LinearLayout>

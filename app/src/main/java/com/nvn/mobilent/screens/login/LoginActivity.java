@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     EditText email, password;
-    Button btnLogin;
+    TextView btnLogin;
     TextView tv_ForgotPass;
     private TextInputLayout textInputLayoutEmail;
     private TextInputLayout textInputLayoutPassword;

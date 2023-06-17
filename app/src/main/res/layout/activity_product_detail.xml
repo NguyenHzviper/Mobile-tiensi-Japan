@@ -105,7 +105,7 @@
             android:background="@drawable/roundbutton"
             android:gravity="center"
             android:text="Thêm vào giỏ hàng"
-            android:textColor="@color/whiteTextColor"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 

@@ -2,8 +2,8 @@ package com.nvn.mobilent.screens.settings;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +27,7 @@ import com.nvn.mobilent.utils.AppUtils;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     EditText oldPass, newPass, newRePass;
-    Button btnChangePass;
+    TextView btnChangePass;
 
     Toolbar toolbar;
     private TextInputLayout textInputLayoutOldPass;

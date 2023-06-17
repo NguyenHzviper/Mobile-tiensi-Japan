@@ -32,7 +32,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.nvn.mobilent.BuildConfig;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.adapter.OrderItemAdapter;
 import com.nvn.mobilent.data.model.order.ListOrderItem;
@@ -42,13 +41,10 @@ import com.nvn.mobilent.data.model.order.Order;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.http.Url;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
@@ -91,7 +87,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         List<ListOrderItem> orderItemArrayList = queryDocumentSnapshots.toObjects(ListOrderItem.class);
                         System.out.println(orderItemArrayList.size());
                         System.out.println("SIZELiSTORDERITEM: " + orderItemArrayList.size());
-                        orderItemAdapter = new OrderItemAdapter(getApplicationContext(), R.layout.line_orderdetail, (ArrayList<ListOrderItem>) orderItemArrayList);
+                        orderItemAdapter = new OrderItemAdapter(getApplicationContext(), R.layout.line_order_item, (ArrayList<ListOrderItem>) orderItemArrayList);
                         listOrderDetail.setAdapter(orderItemAdapter);
                         orderItemAdapter.notifyDataSetChanged();
                     }

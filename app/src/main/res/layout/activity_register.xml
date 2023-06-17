@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/login_bk_color"
+    android:background="@color/white"
     android:focusableInTouchMode="true"
     android:gravity="center"
     tools:context=".screens.register.RegisterActivity">
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                app:cardBackgroundColor="@color/login_bk_color"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
@@ -215,7 +215,7 @@
                         android:layout_marginTop="@dimen/loginViewsMargin"
                         android:background="@drawable/btn_bg_design"
                         android:text="ĐĂNG KÝ"
-                        android:textColor="@color/whiteTextColor" />
+                        android:textColor="@color/white" />
 
                     <Button
                         android:id="@+id/btnlogin2"
@@ -226,7 +226,7 @@
                         android:background="@drawable/btn_bg_secondary_design"
                         android:onClick="onLoginClick"
                         android:text="ĐĂNG NHẬP"
-                        android:textColor="@color/whiteTextColor" />
+                        android:textColor="@color/white" />
 
                     <!--<TextView
                         style="@style/parent"
@@ -251,7 +251,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="3"
-                    android:background="@color/whiteTextColor" />
+                    android:background="@color/white" />
 
             </LinearLayout>
 

@@ -60,27 +60,27 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
     }
 
-    private void setActionViewLipper(View view) {
-        ArrayList<String> slidePictures = new ArrayList<>();
-        slidePictures.add("https://cdn.tgdd.vn/2022/02/banner/830-300-830x300-20.png");
-        slidePictures.add("https://cdn.tgdd.vn/2022/02/banner/reno6z-830-300-830x300.png");
-        slidePictures.add("https://cdn.tgdd.vn/2022/03/banner/830-300-830x300-1.png");
-        slidePictures.add("https://cdn.tgdd.vn/2022/02/banner/830-300-830x300-19.png");
-        for (int i = 0; i < slidePictures.size(); i++) {
-            ImageView imageView = new ImageView(view.getContext().getApplicationContext());
-            Picasso.get().load(slidePictures.get(i)).into(imageView); // Ep anh vao imageview
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY); //Fix vua khung anh
-            viewFlipper.addView(imageView);
-        }
-        viewFlipper.setFlipInterval(4000); // Set time delay slide
-        viewFlipper.setAutoStart(true); // Auto
-
-        Animation animation_SlideIn = AnimationUtils.loadAnimation(view.getContext().getApplicationContext(), R.anim.slide_in_right);
-        Animation animation_SlideOut = AnimationUtils.loadAnimation(view.getContext().getApplicationContext(), R.anim.slide_out_right);
-
-        viewFlipper.setInAnimation(animation_SlideIn);
-        viewFlipper.setOutAnimation(animation_SlideOut);
-    }
+//    private void setActionViewLipper(View view) {
+//        ArrayList<String> slidePictures = new ArrayList<>();
+//        slidePictures.add("https://cdn.tgdd.vn/2022/02/banner/830-300-830x300-20.png");
+//        slidePictures.add("https://cdn.tgdd.vn/2022/02/banner/reno6z-830-300-830x300.png");
+//        slidePictures.add("https://cdn.tgdd.vn/2022/03/banner/830-300-830x300-1.png");
+//        slidePictures.add("https://cdn.tgdd.vn/2022/02/banner/830-300-830x300-19.png");
+//        for (int i = 0; i < slidePictures.size(); i++) {
+//            ImageView imageView = new ImageView(view.getContext().getApplicationContext());
+//            Picasso.get().load(slidePictures.get(i)).into(imageView); // Ep anh vao imageview
+//            imageView.setScaleType(ImageView.ScaleType.FIT_XY); //Fix vua khung anh
+//            viewFlipper.addView(imageView);
+//        }
+//        viewFlipper.setFlipInterval(4000); // Set time delay slide
+//        viewFlipper.setAutoStart(true); // Auto
+//
+//        Animation animation_SlideIn = AnimationUtils.loadAnimation(view.getContext().getApplicationContext(), R.anim.slide_in_right);
+//        Animation animation_SlideOut = AnimationUtils.loadAnimation(view.getContext().getApplicationContext(), R.anim.slide_out_right);
+//
+//        viewFlipper.setInAnimation(animation_SlideIn);
+//        viewFlipper.setOutAnimation(animation_SlideOut);
+//    }
 
     private void setActionBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar); // hỗ trợ toolbar như actionbar
@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
 
     private void setControl(View view) {
         toolbar = view.findViewById(R.id.toolbar);
-        viewFlipper = view.findViewById(R.id.viewflipper);
+//        viewFlipper = view.findViewById(R.id.viewflipper);
         recyclerView = view.findViewById(R.id.recyclerview);
         navigationView = view.findViewById(R.id.navigationview);
         drawerLayout = view.findViewById(R.id.drawerlayout);
@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
             user = DataLocalManager.getUser();
             setControl(view);
             setActionBar();
-            setActionViewLipper(view);
+//            setActionViewLipper(view);
         }
         return view;
     }

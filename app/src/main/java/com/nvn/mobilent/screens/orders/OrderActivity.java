@@ -100,7 +100,6 @@ public class OrderActivity extends AppCompatActivity {
 
     private void getOrderbyUserId() {
         user = DataLocalManager.getUser();
-        System.out.println("Check order history");
         db.collection("orders").whereEqualTo("userId", user.getId())
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {

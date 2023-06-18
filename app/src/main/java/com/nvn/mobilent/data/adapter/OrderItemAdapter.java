@@ -15,6 +15,7 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.model.order.ListOrderItem;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -39,6 +40,7 @@ public class OrderItemAdapter extends ArrayAdapter<ListOrderItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(resource, null);
+        DecimalFormat df = new DecimalFormat("###,###,###");
         TextView name = convertView.findViewById(R.id.nameorderdetail);
         TextView price = convertView.findViewById(R.id.priceorderdetail);
         TextView amount = convertView.findViewById(R.id.amountorderdetail);
@@ -46,9 +48,9 @@ public class OrderItemAdapter extends ArrayAdapter<ListOrderItem> {
         TextView money = convertView.findViewById(R.id.moneyorderdetail);
         ListOrderItem itemOrder = orderItemArrayList.get(position);
         name.setText(itemOrder.getName());
-        price.setText(itemOrder.getPrice() + "");
+        price.setText(df.format(itemOrder.getPrice()) + "");
         amount.setText(itemOrder.getQuantity() + "");
-        money.setText(itemOrder.getQuantity() * itemOrder.getPrice() + "");
+        money.setText(df.format(itemOrder.getQuantity() * itemOrder.getPrice()) + "");
         Picasso.get().load(itemOrder.getImage())
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.no_image1)

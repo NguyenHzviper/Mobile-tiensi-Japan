@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +13,7 @@
         android:layout_height="?actionBarSize"
         android:background="#1E88E5"
         android:gravity="center"
-        android:textSize="30dp"
+        android:textSize="30sp"
         app:title="THÔNG TIN THANH TOÁN"
         app:titleTextColor="@color/white">
 
@@ -22,9 +22,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -32,13 +33,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/tv_ttgh"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <!--Name user    -->
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/namepayment"
             style="@style/parent">
 
@@ -49,11 +51,32 @@
                 android:drawablePadding="10dp"
                 android:hint="Họ tên người nhận"
                 android:inputType="textPersonName"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+                android:maxLines="1"
+                android:autofillHints=""
+                android:background="@color/white"/>
+        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/namepayment"
+            style="@style/customTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+            <EditText
+                android:id="@+id/txtnguoinhan"
+                style="@style/modifiedEditText"
+                android:drawableStart="@drawable/ic_baseline_fullname"
+                android:drawablePadding="10dp"
+                android:hint="Họ tên người nhận"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:autofillHints=""
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Mobile phone    -->
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phonepayment"
             style="@style/parent">
 
@@ -64,14 +87,34 @@
                 android:drawablePadding="10dp"
                 android:hint="Số điện thoại"
                 android:inputType="phone"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+                android:maxLines="1"
+                android:autofillHints=""
+                android:background="@color/white"/>
+        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phonepayment"
+            style="@style/customTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+            <EditText
+                android:id="@+id/txtsdtnguoinhan"
+                style="@style/modifiedEditText"
+                android:drawableStart="@drawable/ic_baseline_phone"
+                android:drawablePadding="10dp"
+                android:hint="Số điện thoại"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:autofillHints=""
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Address-->
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addresspayment"
             style="@style/parent">
-
             <EditText
                 android:id="@+id/txtdiachi"
                 style="@style/modifiedEditText"
@@ -79,20 +122,44 @@
                 android:drawablePadding="10dp"
                 android:hint="Gồm số nhà, xã, phường, thị trấn,..."
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:background="@color/white"/>
+
+        </com.google.android.material.textfield.TextInputLayout>-->
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addresspayment"
+            style="@style/customTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+            <EditText
+                android:id="@+id/txtdiachi"
+                style="@style/modifiedEditText"
+                android:drawableStart="@drawable/ic_baseline_location_on_24"
+                android:drawablePadding="10dp"
+                android:hint="Địa chỉ"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:autofillHints=""
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--Btn-->
         <Button
             android:id="@+id/btncheckout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="50dp"
-            android:background="@drawable/btn_bg_design"
             android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
+            android:background="@drawable/bg_signin"
             android:text="Đặt hàng"
-            android:textColor="@color/white" />
+            android:textColor="#fefae0" />
+
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

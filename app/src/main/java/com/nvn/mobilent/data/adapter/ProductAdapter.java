@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nvn.mobilent.R;
@@ -95,6 +96,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ItemHold
             tvNameProduct = itemView.findViewById(R.id.tvnameproduct);
             tvPriceProduct = itemView.findViewById(R.id.tvpriceproduct);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

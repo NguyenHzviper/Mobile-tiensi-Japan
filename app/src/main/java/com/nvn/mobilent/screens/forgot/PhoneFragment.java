@@ -23,13 +23,16 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.FirebaseAuthInvalidCredentialgenderception;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nvn.mobilent.R;
-import com.nvn.mobilent.screens.forgot.VerifyResetPasswordActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -83,26 +86,47 @@ public class PhoneFragment extends Fragment {
                 if (checkData()) {
                     String getPhone = edt_phone.getText().toString().trim();
                     String phone = "+84" + edt_phone.getText().toString().substring(1, getPhone.length());
-//                    if (db.checkPhone(phone)) {
-//                        loadingDialog.startLoadingDialog();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
+
+                    // Check phone number in Firebase Firestore
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    CollectionReference usersRef = db.collection("users");
+                    Query query = usersRef.whereEqualTo("phone", getPhone);
+
+                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void run() {
-                            onClickVerify(phone);
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                    // Phone number exists in Firestore
+                                    System.out.println("Tìm ra sdt");
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            onClickVerify(phone);
+                                        }
+                                    }, 3000);
+                                } else {
+                                    // Phone number does not exist in Firestore
+                                    System.out.println("Hong ra sdt");
+                                    Toast.makeText(requireContext(), "Số điện thoại không khớp với bất kỳ tài khoản nào", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // Error occurred while checking phone number
+                                Toast.makeText(requireContext(), "Lỗi kiểm tra số điện thoại", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }, 3000);
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Số điện thoại không khớp với bất kỳ tài khoản nào", Toast.LENGTH_SHORT).show();
-//                    }
+                    });
                 }
             }
         });
+
     }
 
     private void onClickVerify(String phone) {
         PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
+                PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
                         .setPhoneNumber(phone)       // Phone number to verify
                         .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                         .setActivity(getActivity())                 // Activity (for callback binding)
@@ -118,36 +142,38 @@ public class PhoneFragment extends Fragment {
                             }
 
                             @Override
-                            public void onCodeSent(@NonNull String verifycationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                super.onCodeSent(verifycationId, forceResendingToken);
-                                System.out.println("Đã gửi OTP");
-                                goToVerifyResetPasswordActivity(phone, verifycationId);
+                            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(verificationId, forceResendingToken);
+                                Toast.makeText(requireContext(), "OTP đã được gửi", Toast.LENGTH_SHORT).show();
+                                goToVerifyResetPasswordActivity(phone, verificationId);
                             }
                         })
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.e("TAG", "signInWithCredential:success");
+                            Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-//                            if (task.getException() instanceof FirebaseAuthInvalidCredentialgenderception) {
-//                                // The verification code entered was invalid
-//                                Toast.makeText(getActivity(), "The verification code entered was invalid", Toast.LENGTH_SHORT).show();
-//                            }
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                                Toast.makeText(requireContext(), "Mã xác thực không hợp lệ", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
     }
+
 
     private void goToVerifyResetPasswordActivity(String phone, String verifycationId) {
         Intent intent = new Intent(getActivity(), VerifyResetPasswordActivity.class);

@@ -192,6 +192,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         name = findViewById(R.id.tv_nameproductdetail);
         /*quantity = findViewById(R.id.tv_quantity);*/
         spinner = findViewById(R.id.spinner);
+
+        TextView btnValue =findViewById(R.id.btnvalue);
+        TextView btnPlus = findViewById(R.id.btnplus);
+        TextView btnMinus = findViewById(R.id.btnminus);
+
         price = findViewById(R.id.tv_priceproduct);
         detail = findViewById(R.id.tv_productdetail);
         image = findViewById(R.id.image_productdetail);

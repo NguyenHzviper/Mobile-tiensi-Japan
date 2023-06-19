@@ -10,5 +10,12 @@
     <string name="tv_ttgh">Mời nhập thông tin giao hàng</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="register_firstname">Tên</string>
+    <string name="register_lastname">Họ</string>
+    <string name="register_birthday">Ngày sinh</string>
+    <string name="register_address">Địa chỉ</string>
+    <string name="register_phonenumber">Số điện thoại</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Mật khẩu</string>
+    <string name="register_repassword">Nhập lại mật khẩu</string>
 </resources>

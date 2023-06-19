@@ -16,23 +16,24 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
-        android:paddingHorizontal="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="30dp">
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
+            android:contentDescription=""
             android:scaleType="centerInside"
             app:srcCompat="@drawable/logo_notext" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="Chào mừng bạn trở lại với Homely"
             android:textColor="#3d1a00"
-            android:layout_marginTop="20dp"
             android:textSize="23sp"
             android:textStyle="bold" />
 
@@ -47,7 +48,8 @@
             <EditText
                 android:id="@+id/loginemail"
                 style="@style/modifiedEditText"
-                android:drawableLeft="@drawable/ic_baseline_email"
+                android:autofillHints=""
+                android:drawableStart="@drawable/ic_baseline_email"
                 android:drawablePadding="10dp"
                 android:hint="@string/login_email_hint"
                 android:inputType="textEmailAddress"
@@ -65,7 +67,8 @@
             <EditText
                 android:id="@+id/loginpassword"
                 style="@style/modifiedEditText"
-                android:drawableLeft="@drawable/ic_baseline_password"
+                android:autofillHints=""
+                android:drawableStart="@drawable/ic_baseline_password"
                 android:drawablePadding="10dp"
                 android:hint="@string/login_password_hint"
                 android:inputType="textPassword"
@@ -97,21 +100,20 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/btnlogin2"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        android:layout_marginTop="@dimen/loginViewsMargin"-->
-<!--                        android:background="@drawable/bg_signup"-->
-<!--                        android:gravity="center"-->
-<!--                        android:onClick="onLoginClick"-->
-<!--                        android:paddingVertical="10dp"-->
-<!--                        android:text="Đăng ký"-->
-<!--                        android:textColor="#fffcf2"-->
-<!--                        android:textSize="18dp"-->
-<!--                        android:textStyle="bold" />-->
+        <TextView
+            android:id="@+id/btnsignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:background="@drawable/bg_signup"
+            android:gravity="center"
+            android:onClick="onSignupClick"
+            android:paddingVertical="10dp"
+            android:text="Đăng ký"
+            android:textColor="#fffcf2"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
         <LinearLayout

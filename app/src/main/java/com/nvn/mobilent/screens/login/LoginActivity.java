@@ -40,6 +40,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     TextView btnLogin;
+    TextView btnSignup;
     TextView tv_ForgotPass;
     private TextInputLayout textInputLayoutEmail;
     private TextInputLayout textInputLayoutPassword;
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         setContentView(R.layout.activity_login);
+        /*setContentView(R.layout.activity_register);*/
         setControl();
         setEvent();
     }
@@ -125,6 +127,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /*btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });*/
         tv_ForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,12 +142,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     private void setControl() {
         email = findViewById(R.id.loginemail);
         password = findViewById(R.id.loginpassword);
         btnLogin = findViewById(R.id.btnlogin);
+        btnSignup = findViewById(R.id.btnsignup);
         email.setText("nguyenpham430hf@gmail.com");
         password.setText("123456");
         tv_ForgotPass = findViewById(R.id.tv_forgotpass);
@@ -170,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
         return check;
     }
 
-    public void onLoginClick(View view) {
+    public void onSignupClick(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
        /* overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);*/
     }

@@ -39,10 +39,27 @@ public class OrderAdapter extends ArrayAdapter<Order> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(resource, null);
         TextView dateOder = convertView.findViewById(R.id.tvDate);
+        TextView address = convertView.findViewById(R.id.tv_address);
         TextView statusOrder = convertView.findViewById(R.id.statusorder);
+        TextView price = convertView.findViewById(R.id.tv_price_order);
         Order order = orderArrayList.get(position);
         dateOder.setText(order.getBuyDate());
-        System.out.println("status order" + statusOrder.toString());
+        address.setText(order.getDeliveryAddress());
+//        if (order.getStatus()){
+//            statusOrder.setText("Chưa xử lý");
+//            cancelOrder.setVisibility(View.VISIBLE);
+//        }else {
+//            statusOrder.setText("Đơn đã huỷ");
+//            cancelOrder.setVisibility(View.INVISIBLE);
+//        }
+//        cancelOrder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                statusOrder.setText("Đơn đã huỷ");
+//                OrderActivity.cancelOrder(order.getId());
+//                cancelOrder.setVisibility(View.INVISIBLE);
+//            }
+//        });
         return convertView;
     }
 }

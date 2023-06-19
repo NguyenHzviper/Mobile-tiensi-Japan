@@ -98,20 +98,20 @@
             android:textStyle="bold" />
 
 
-        <!--            <TextView-->
-        <!--                android:id="@+id/btnlogin2"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center_horizontal"-->
-        <!--                android:layout_marginTop="@dimen/loginViewsMargin"-->
-        <!--                android:background="@drawable/bg_signup"-->
-        <!--                android:gravity="center"-->
-        <!--                android:onClick="onLoginClick"-->
-        <!--                android:paddingVertical="10dp"-->
-        <!--                android:text="Đăng ký"-->
-        <!--                android:textColor="#fffcf2"-->
-        <!--                android:textSize="18dp"-->
-        <!--                android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/btnlogin2"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_horizontal"-->
+<!--                        android:layout_marginTop="@dimen/loginViewsMargin"-->
+<!--                        android:background="@drawable/bg_signup"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="onLoginClick"-->
+<!--                        android:paddingVertical="10dp"-->
+<!--                        android:text="Đăng ký"-->
+<!--                        android:textColor="#fffcf2"-->
+<!--                        android:textSize="18dp"-->
+<!--                        android:textStyle="bold" />-->
 
 
         <LinearLayout

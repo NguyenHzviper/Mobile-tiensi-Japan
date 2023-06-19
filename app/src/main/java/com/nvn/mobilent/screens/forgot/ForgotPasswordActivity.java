@@ -13,7 +13,7 @@ import com.nvn.mobilent.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     Toolbar toolbar;
-    Button btnEmail, btnPhone;
+    Button btnEmail;
 
 
     @Override
@@ -37,7 +37,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+
         /*PhoneFragment phoneFragment = new PhoneFragment();*/
+
         EmailFragment emailFragment = new EmailFragment();
         btnEmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,18 +47,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 setFragment(emailFragment);
             }
         });
+
         /*btnPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setFragment(phoneFragment);
             }
         });*/
+
     }
 
     private void setControl() {
         toolbar = findViewById(R.id.toolbar_forgot);
         btnEmail = findViewById(R.id.btnrecemail);
+
         /*btnPhone = findViewById(R.id.btnrecsdt);*/
+
     }
 
     private void setFragment(Fragment fragment) {

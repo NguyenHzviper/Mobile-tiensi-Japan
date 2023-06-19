@@ -50,12 +50,14 @@ public class CartAdapter extends ArrayAdapter<ACart> {
         TextView btnMinus = convertView.findViewById(R.id.btnminus);
         TextView imgDelete = convertView.findViewById(R.id.imagedeletecart);
         TextView tvtotal = convertView.findViewById(R.id.total_tv);
+        TextView itemNum_tv = convertView.findViewById(R.id.itemNum_tv);
 
         DecimalFormat df = new DecimalFormat("###,###,###");
         priceCart.setText(df.format(cart.getPrice())+"");
         nameCart.setText(cart.getName());
 
-        tvtotal.setText(cart.getPrice() * cart.getQuantity() + "");
+        tvtotal.setText(df.format(cart.getPrice() * cart.getQuantity()) + "");
+        itemNum_tv.setText(cart.getQuantity().toString());
 
         Picasso.get().load(cart.getImage())
                 .placeholder(R.drawable.no_image)

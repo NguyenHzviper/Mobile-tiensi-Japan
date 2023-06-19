@@ -3,10 +3,8 @@ package com.nvn.mobilent.screens.product;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,10 +23,8 @@ import com.nvn.mobilent.data.datalocal.DataLocalManager;
 import com.nvn.mobilent.data.model.cart.Cart;
 import com.nvn.mobilent.data.model.product.Product;
 import com.nvn.mobilent.data.model.user.User;
-
 import com.nvn.mobilent.utils.AppUtils;
 import com.squareup.picasso.Picasso;
-
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -39,10 +35,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     Product product;
 
     private static User user;
-    ImageView image, heart;
-    boolean tmp = false;
-    TextView name, quantity, price, detail;
-    Spinner spinner;
+    ImageView image;
+    TextView name, quantity, price, detail, btnminus, btnplus;
     Button btn_addcart;
 
     @Override
@@ -52,9 +46,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         user = DataLocalManager.getUser();
         setControl();
         actionToolBar();
-        setEventSpinner();
         loadInfo();
-        changeHeart();
+        setEvent();
         setEventButton();
     }
 
@@ -111,7 +104,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                int amount = Integer.parseInt(spinner.getSelectedItem().toString());
+                int amount = Integer.parseInt(quantity.getText().toString());
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference cartItemsRef = db.collection("cart");
@@ -166,42 +159,48 @@ public class ProductDetailActivity extends AppCompatActivity {
                 .into(image);
     }
 
-    private void changeHeart() {
-        heart.setOnClickListener(new View.OnClickListener() {
+    private void setEvent() {
+        btnplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!tmp) {
-                    heart.setImageResource(R.drawable.ic_heart1);
-                    tmp = true;
-                } else {
-                    heart.setImageResource(R.drawable.ic_heart2);
-                    tmp = false;
+                int slmoi = Integer.parseInt(quantity.getText().toString()) + 1;
+                if (slmoi <= 10 && slmoi >= 1) {
+                    quantity.setText(slmoi + "");
+
+                }
+            }
+        });
+        btnminus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int slmoi = Integer.parseInt(quantity.getText().toString()) - 1;
+                if (slmoi <= 10 && slmoi >= 1) {
+                    quantity.setText(slmoi + "");
+
                 }
             }
         });
     }
 
-    private void setEventSpinner() {
-        Integer[] amount = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, amount);
-        spinner.setAdapter(arrayAdapter);
-    }
-
     private void setControl() {
         toolbar = findViewById(R.id.toolbar_productdetail);
         name = findViewById(R.id.tv_nameproductdetail);
+
         /*quantity = findViewById(R.id.tv_quantity);*/
-        spinner = findViewById(R.id.spinner);
+        /*spinner = findViewById(R.id.spinner);*/
 
         TextView btnValue =findViewById(R.id.btnvalue);
         TextView btnPlus = findViewById(R.id.btnplus);
         TextView btnMinus = findViewById(R.id.btnminus);
 
+
         price = findViewById(R.id.tv_priceproduct);
         detail = findViewById(R.id.tv_productdetail);
         image = findViewById(R.id.image_productdetail);
-        heart = findViewById(R.id.ic_heart);
         btn_addcart = findViewById(R.id.btn_addcart);
+        btnminus = findViewById(R.id.btnminus);
+        btnplus = findViewById(R.id.btnplus);
+        quantity = findViewById(R.id.product_quantity);
     }
 
     private void actionToolBar() {

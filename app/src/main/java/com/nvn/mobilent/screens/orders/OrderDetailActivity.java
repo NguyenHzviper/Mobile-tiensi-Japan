@@ -41,6 +41,7 @@ import com.nvn.mobilent.data.model.order.Order;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,8 +86,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         List<ListOrderItem> orderItemArrayList = queryDocumentSnapshots.toObjects(ListOrderItem.class);
-                        System.out.println(orderItemArrayList.size());
-                        System.out.println("SIZELiSTORDERITEM: " + orderItemArrayList.size());
                         orderItemAdapter = new OrderItemAdapter(getApplicationContext(), R.layout.line_order_item, (ArrayList<ListOrderItem>) orderItemArrayList);
                         listOrderDetail.setAdapter(orderItemAdapter);
                         orderItemAdapter.notifyDataSetChanged();
@@ -110,7 +109,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderSelected = (Order) getIntent().getSerializableExtra("order");
         idOrder = orderSelected.getId();
 
-        System.out.println("IDORDER:" + idOrder);
         setControl();
         actionToolBar();
         setEvent();
@@ -141,6 +139,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         }, PackageManager.PERMISSION_GRANTED);
 
         Date date = new Date();
+        DecimalFormat df = new DecimalFormat("###,###,###");
 
         db.collection("orderDetails")
                 .whereEqualTo("orderId",idOrder)
@@ -165,7 +164,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         Titlepaint.setTextSize(60f);
                         Titlepaint.setColor(Color.BLUE);
                         Titlepaint.setTextAlign(Paint.Align.CENTER);
-                        canvas.drawText("Danh sách chi tiết đơn hàng " + idOrder, pageWidth / 2, 300, Titlepaint);
+                        canvas.drawText("Danh sách chi tiết đơn hàng", pageWidth / 2, 300, Titlepaint);
                         myPaint.setTextAlign(Paint.Align.LEFT);
                         myPaint.setTextSize(35f);
                         myPaint.setColor(Color.BLACK);
@@ -201,7 +200,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                             money = money + orderItem.getPrice() * orderItem.getQuantity();
                             rowNumber++;
                             canvas.drawText(orderItem.getName() + "", 20, yChuan, myPaint);
-                            canvas.drawText(orderItem.getPrice() + "", 820, yChuan, myPaint);
+                            canvas.drawText(df.format(orderItem.getPrice()) + "", 820, yChuan, myPaint);
                             canvas.drawText(orderItem.getQuantity() + "", 1100, yChuan, myPaint);
                             yChuan += yThem;
                         }
@@ -214,7 +213,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         myPaint.setTextAlign(Paint.Align.LEFT);
                         canvas.drawText("Tổng tiền thanh toán  :", 300, 1415 + rowNumber * 100, myPaint);
                         myPaint.setTextAlign(Paint.Align.RIGHT);
-                        canvas.drawText(String.valueOf(money), pageWidth - 40, 1415 + rowNumber * 100, myPaint);
+                        canvas.drawText(df.format(money), pageWidth - 40, 1415 + rowNumber * 100, myPaint);
                         pdfDocument.finishPage(page);
 
                         dateFormat = new SimpleDateFormat("dd-MM-yyyy");

@@ -79,7 +79,7 @@ public class ChartActivity extends AppCompatActivity {
                                 Category category = categoryDoc.toObject(Category.class);
                                 assert category != null;
                                  // Set the ID of the category
-                                category.setId(String.valueOf(categoryDoc.getId()));
+                                category.setId(categoryDoc.getId());
                                 String categoryId = category.getId();
                                 System.out.println(categoryId);
                                 db.collection("products")

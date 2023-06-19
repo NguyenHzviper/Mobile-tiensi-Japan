@@ -113,7 +113,14 @@
                         android:id="@+id/itemNum_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="1x"
+                        android:text="1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/itemNum_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=" x "
                         android:textSize="12sp" />
 
                     <TextView

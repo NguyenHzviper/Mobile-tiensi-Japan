@@ -57,12 +57,12 @@
                 android:textSize="20sp" />-->
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/ic_heart"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_heart2" />
+<!--        <ImageView-->
+<!--            android:id="@+id/ic_heart"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/ic_heart2" />-->
 
     </LinearLayout>
 
@@ -84,9 +84,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1"
-
-
         android:layout_marginHorizontal="20dp">
+
 
         <!--<Spinner
             android:id="@+id/spinner"
@@ -97,6 +96,16 @@
             android:gravity="center"
             android:paddingLeft="50dp"
             />-->
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/spinner"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="50dp"-->
+            />
+
         <LinearLayout
             android:id="@+id/linearLayout6"
             android:layout_width="wrap_content"
@@ -120,7 +129,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/spinner"
+                android:id="@+id/product_quantity"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"

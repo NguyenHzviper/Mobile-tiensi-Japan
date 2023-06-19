@@ -56,8 +56,7 @@ public class CartActivity extends AppCompatActivity {
         // Create a new cart item in Firestore
         DocumentReference cartRef = db.collection("cart").document();
         String cartId = cartRef.getId();
-        System.out.println("//////////////");
-        System.out.println(cartId);
+
         cartRef.set(new Cart(cartId, prod_id, image, name, quantity, userid))
                 .addOnSuccessListener(aVoid -> {
                     AppUtils.showToast_Short(tv_TotalCart.getContext(), "Đã thêm sản phẩm vào giỏ hàng!");

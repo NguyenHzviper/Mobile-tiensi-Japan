@@ -103,13 +103,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingLeft="10dp"
-            android:text="6/14A Chánh Hưng, phường Cầu giờ, quận Cầu Giấy, TP. HCM"
+            android:text="6/14A Chánh Hưng "
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_address_lb"
             app:layout_constraintEnd_toEndOf="@+id/tv_price_order"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/tv_address_lb"
             app:layout_constraintTop_toTopOf="@+id/tv_address_lb"
-            app:layout_constraintVertical_bias="0.437" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <View
             android:id="@+id/seperate_history_order"

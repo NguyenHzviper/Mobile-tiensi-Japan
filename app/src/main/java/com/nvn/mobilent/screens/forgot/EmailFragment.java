@@ -8,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.nvn.mobilent.R;
 
 public class EmailFragment extends Fragment {
@@ -85,10 +89,24 @@ public class EmailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (checkData()) {
-
+                    String userEmail = email.getText().toString().trim();
+                    sendPasswordResetEmail(userEmail);
                 }
             }
         });
+    }
+    private void sendPasswordResetEmail(String userEmail) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(userEmail)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(requireContext(), "Đã gửi email khôi phục mật khẩu", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(requireContext(), "Gửi email khôi phục mật khẩu thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void setControl() {

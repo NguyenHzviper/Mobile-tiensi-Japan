@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         setContentView(R.layout.activity_login);
-        /*setContentView(R.layout.activity_register);*/
         setControl();
         setEvent();
     }
@@ -128,13 +127,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*btnSignup.setOnClickListener(new View.OnClickListener() {
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
+
         tv_ForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,11 +180,6 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         return check;
-    }
-
-    public void onSignupClick(View view) {
-        startActivity(new Intent(this, RegisterActivity.class));
-       /* overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);*/
     }
 
 }

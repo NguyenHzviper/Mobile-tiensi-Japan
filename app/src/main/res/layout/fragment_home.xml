@@ -7,7 +7,6 @@
     android:background="@color/white"
     tools:context=".screens.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
@@ -68,19 +67,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Homely"
-                android:textColor="#26852A" />
-        </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </FrameLayout>

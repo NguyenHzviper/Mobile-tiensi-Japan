@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText firstName, lastName, birthday, address, phone, email, pass, repass;
 
     RadioButton rb1, rb2;
-    Button btnRegister;
+    TextView btnRegister;
     private TextInputLayout textInputLayoutFirstName;
     private TextInputLayout textInputLayoutLastName;
     private TextInputLayout textInputLayoutBirthDay;

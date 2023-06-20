@@ -17,10 +17,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 import com.nvn.mobilent.R;
 import com.nvn.mobilent.data.adapter.OrderAdapter;
 import com.nvn.mobilent.data.datalocal.DataLocalManager;
+import com.nvn.mobilent.data.model.order.ListOrderItem;
 import com.nvn.mobilent.data.model.order.Order;
 import com.nvn.mobilent.data.model.user.User;
 import com.nvn.mobilent.utils.AppUtils;
@@ -80,6 +88,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public static void cancelOrder(String id) {
+        System.out.println(id);
         db.collection("orders")
                 .document(id)
                 .update("status", false)
@@ -97,7 +106,6 @@ public class OrderActivity extends AppCompatActivity {
                 });
     }
 
-
     private void getOrderbyUserId() {
         user = DataLocalManager.getUser();
         db.collection("orders").whereEqualTo("userId", user.getId())
@@ -106,14 +114,28 @@ public class OrderActivity extends AppCompatActivity {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         listOrder.removeFooterView(footerView);
                         List<Order> orders = queryDocumentSnapshots.toObjects(Order.class);
+                        List<Task<Void>> tasks = new ArrayList<>();
+
                         for (int i = 0; i < orders.size(); i++) {
                             String orderId = queryDocumentSnapshots.getDocuments().get(i).getId();
-                            orders.get(i).setId(orderId);
+                            int finalI = i;
+                            Task<Void> task = getOrderDetailsAndUpdateOrder(orders.get(i), orderId)
+                                    .addOnSuccessListener(aVoid -> {
+                                        orders.get(finalI).setId(orderId);
+                                    });
+                            tasks.add(task);
                         }
-                        orderArrayList.addAll(orders);
-                        orderAdapter = new OrderAdapter(getApplicationContext(), R.layout.line_order, orderArrayList);
-                        listOrder.setAdapter(orderAdapter);
-                        orderAdapter.notifyDataSetChanged();
+
+                        Tasks.whenAll(tasks)
+                                .addOnSuccessListener(aVoid -> {
+                                    orderArrayList.addAll(orders);
+                                    orderAdapter = new OrderAdapter(getApplicationContext(), R.layout.line_order, orderArrayList);
+                                    listOrder.setAdapter(orderAdapter);
+                                    orderAdapter.notifyDataSetChanged();
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Handle the failure
+                                });
                     } else {
                         listOrder.removeFooterView(footerView);
                     }
@@ -122,6 +144,33 @@ public class OrderActivity extends AppCompatActivity {
                     // Handle the failure
                 });
     }
+
+    private Task<Void> getOrderDetailsAndUpdateOrder(Order order, String orderId) {
+        TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
+
+        db.collection("orderDetails")
+                .whereEqualTo("orderId", orderId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int money = 0;
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        ListOrderItem orderItem = document.toObject(ListOrderItem.class);
+                        assert orderItem != null;
+                        money += orderItem.getPrice() * orderItem.getQuantity();
+                        orderItem.setId(document.getId());
+                    }
+                    order.setMoney(money);
+                    System.out.println("Money: " + money);
+                    tcs.setResult(null);
+                })
+                .addOnFailureListener(e -> {
+                    tcs.setException(e);
+                });
+
+        return tcs.getTask();
+    }
+
+
 
 
     private void getMoreItemCategory() {
@@ -133,8 +182,6 @@ public class OrderActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
 

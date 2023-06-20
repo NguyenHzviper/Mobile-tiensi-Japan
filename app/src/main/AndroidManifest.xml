@@ -65,9 +65,6 @@
             android:name=".screens.cart.CartActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.home.SearchActivity"
-            android:exported="false" />
-        <activity
             android:name=".screens.product.ProductDetailActivity"
             android:exported="false" />
         <activity

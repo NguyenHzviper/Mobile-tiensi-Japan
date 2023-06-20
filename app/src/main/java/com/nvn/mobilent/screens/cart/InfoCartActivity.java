@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 import com.nvn.mobilent.R;
@@ -163,7 +164,6 @@ public class InfoCartActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        // Check for internet connection
         if (!AppUtils.haveNetworkConnection(getApplicationContext())) {
             AppUtils.showToast_Short(getApplicationContext(), "Kiểm tra lại kết nối Internet");
         } else {
@@ -176,7 +176,6 @@ public class InfoCartActivity extends AppCompatActivity {
                 String formattedDate = dateFormat.format(currentDate);
 
                 if (checkData()) {
-                    // Create an order document in Firestore
                     Map<String, Object> orderData = new HashMap<>();
                     orderData.put("userId", user.getId());
                     orderData.put("deliveryAddress", diaChi);
@@ -185,16 +184,10 @@ public class InfoCartActivity extends AppCompatActivity {
                     orderData.put("status", true);
                     orderData.put("buyDate", formattedDate);
 
-
                     db.collection("orders")
                             .add(orderData)
                             .addOnSuccessListener(documentReference -> {
                                 String idOrder = documentReference.getId();
-                                recipientName.setText("");
-                                phone.setText("");
-                                address.setText("");
-
-                                // Get cart items for the current user
                                 db.collection("cart")
                                         .whereEqualTo("userId", user.getId())
                                         .get()
@@ -202,7 +195,7 @@ public class InfoCartActivity extends AppCompatActivity {
                                             if (!queryDocumentSnapshots.isEmpty()) {
                                                 List<Cart> cartItems = queryDocumentSnapshots.toObjects(Cart.class);
                                                 for (Cart cart : cartItems) {
-                                                    // Get the product price
+
                                                     db.collection("products")
                                                             .document(cart.getProdId())
                                                             .get()
@@ -211,7 +204,7 @@ public class InfoCartActivity extends AppCompatActivity {
                                                                 if (product != null) {
                                                                     int price = product.getPrice();
 
-                                                                    // Create an order detail document in Firestore
+
                                                                     Map<String, Object> orderDetailData = new HashMap<>();
                                                                     orderDetailData.put("quantity", cart.getQuantity());
                                                                     orderDetailData.put("prodId", cart.getProdId());
@@ -222,32 +215,22 @@ public class InfoCartActivity extends AppCompatActivity {
 
                                                                     db.collection("orderDetails")
                                                                             .add(orderDetailData)
-                                                                            .addOnSuccessListener(documentReference1 -> System.out.println("ADDED!"))
-                                                                            .addOnFailureListener(e -> {
-                                                                                // Handle the failure
-                                                                            });
+                                                                            .addOnSuccessListener(documentReference1 -> System.out.println("ADDED!"));
+
                                                                 }
-                                                            })
-                                                            .addOnFailureListener(e -> {
-                                                                // Handle the failure
                                                             });
+
                                                 }
-
-                                                // Delete all cart items for the current user
                                                 deleteAllCart(user.getId());
-
                                                 sendOnChannel1();
                                                 finish();
                                             } else {
                                                 AppUtils.showToast_Short(getApplicationContext(), "Giỏ hàng trống!");
                                             }
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            // Handle the failure
                                         });
+
                             })
                             .addOnFailureListener(e -> {
-                                // Handle the failure
                                 System.out.println("Lỗi " + e);
                             });
                 } else {
@@ -256,7 +239,6 @@ public class InfoCartActivity extends AppCompatActivity {
             });
         }
     }
-
 
     private void setControl() {
         sizeCart = getIntent().getIntExtra("sizecart", 0);
@@ -288,20 +270,4 @@ public class InfoCartActivity extends AppCompatActivity {
                 .notify("tag", notificationId, notification);
     }
 
-    private void sendOnChannel2() {
-        String title = "Mobile Shop App";
-        String message = "Đơn hàng của bạn đã được đặt thành công!";
-
-        Notification notification = new NotificationCompat.Builder(this, NotificationApp.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_ok)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setCategory(NotificationCompat.CATEGORY_PROMO) // Promotion.
-                .build();
-
-        int notificationId = 2;
-        NotificationManagerCompat.from(getApplicationContext())
-                .notify("tag", notificationId, notification);
-    }
 }

@@ -29,6 +29,7 @@ public class ViewAccountInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_view_account_info);
         user = DataLocalManager.getUser();
+
         setControl();
         setActionBar();
         setEvent();
@@ -49,6 +50,7 @@ public class ViewAccountInfo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        tv_useremail.setText(user.getEmail());
     }
 
     private void setControl(){

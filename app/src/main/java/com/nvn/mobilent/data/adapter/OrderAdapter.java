@@ -1,6 +1,7 @@
 package com.nvn.mobilent.data.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.nvn.mobilent.R;
 import com.nvn.mobilent.screens.orders.OrderActivity;
 import com.nvn.mobilent.data.model.order.Order;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class OrderAdapter extends ArrayAdapter<Order> {
@@ -41,23 +43,28 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         TextView dateOder = convertView.findViewById(R.id.tvDate);
         TextView address = convertView.findViewById(R.id.tv_address);
         TextView statusOrder = convertView.findViewById(R.id.statusorder);
-        /*TextView price = convertView.findViewById(R.id.tv_price_order);*/
         TextView cancelOrder = convertView.findViewById(R.id.cancelorder);
+        TextView price = convertView.findViewById(R.id.tv_price_order);
         Order order = orderArrayList.get(position);
         dateOder.setText(order.getBuyDate());
         address.setText(order.getDeliveryAddress());
-        /*price.setText(String.valueOf(order.getTotal()) );*/
-//        if (order.getStatus()){
-//            statusOrder.setText("Chưa xử lý");
-//            cancelOrder.setVisibility(View.VISIBLE);
-//        }else {
-//            statusOrder.setText("Đơn đã huỷ");
-//            cancelOrder.setVisibility(View.INVISIBLE);
-//        }
+        DecimalFormat df = new DecimalFormat("###,###,###");
+
+        if (order.getStatus()){
+            statusOrder.setText("Chưa xử lý");
+            statusOrder.setTextColor(Color.BLUE);
+            cancelOrder.setVisibility(View.VISIBLE);
+        }else {
+            statusOrder.setText("Đơn đã huỷ");
+            statusOrder.setTextColor(Color.RED);
+            cancelOrder.setVisibility(View.INVISIBLE);
+        }
+        price.setText(df.format(order.getMoney())+ "đ");
         cancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 statusOrder.setText("Đơn đã huỷ");
+                statusOrder.setTextColor(Color.RED);
                OrderActivity.cancelOrder(order.getId());
                 cancelOrder.setVisibility(View.INVISIBLE);
            }

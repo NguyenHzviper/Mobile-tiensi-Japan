@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingLeft="10sp"
-    android:paddingRight="10sp"
+
     tools:context=".screens.product.ProductDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -49,20 +48,13 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
-            <!--<TextView
+            <TextView
                 android:id="@+id/tv_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Số lượng tồn"
-                android:textSize="20sp" />-->
+                android:textSize="20sp" />
         </LinearLayout>
-
-<!--        <ImageView-->
-<!--            android:id="@+id/ic_heart"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:src="@drawable/ic_heart2" />-->
 
     </LinearLayout>
 
@@ -87,26 +79,8 @@
         android:layout_marginHorizontal="20dp">
 
 
-        <!--<Spinner
-            android:id="@+id/spinner"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/spinner"
-            android:gravity="center"
-            android:paddingLeft="50dp"
-            />-->
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/spinner"-->
-<!--            android:gravity="center"-->
-<!--            android:paddingLeft="50dp"-->
-            />
-
         <LinearLayout
+            android:layout_marginLeft="10dp"
             android:id="@+id/linearLayout6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,6 +107,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="1"
                 android:textColor="#666" />

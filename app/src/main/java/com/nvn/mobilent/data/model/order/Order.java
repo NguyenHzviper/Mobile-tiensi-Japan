@@ -34,7 +34,7 @@ public class Order implements Serializable {
     private String recipientName;
     @SerializedName("listOrderItem")
     @Expose
-    private ArrayList<ListOrderItem> listOrderItem = null;
+    private int money;
 
     public Order() {
 
@@ -49,7 +49,7 @@ public class Order implements Serializable {
         this.phone = phone;
         this.status = status;
         this.recipientName = recipientName;
-        this.listOrderItem = listOrderItem;
+
     }
 
     public Order(Order order) {
@@ -61,7 +61,7 @@ public class Order implements Serializable {
         this.phone = order.getPhone();
         this.status = order.getStatus();
         this.recipientName = order.getRecipientName();
-        this.listOrderItem = order.getListOrderItem();
+
     }
 
     public String getId() {
@@ -128,25 +128,7 @@ public class Order implements Serializable {
         this.recipientName = recipientName;
     }
 
-    public ArrayList<ListOrderItem> getListOrderItem() {
-        return listOrderItem;
-    }
+    public void setMoney(int money){this.money = money;}
+    public int getMoney() {return this.money;}
 
-    public void setListOrderItem(ArrayList<ListOrderItem> listOrderItem) {
-        this.listOrderItem = listOrderItem;
-    }
-
-    public long getTotal() {
-        long total = 0;
-
-        //BUG
-        if (listOrderItem != null) {
-            for (ListOrderItem item : listOrderItem) {
-                total += (long) item.getPrice() * item.getQuantity();
-            }
-        }
-        return total;
-
-
-    }
 }

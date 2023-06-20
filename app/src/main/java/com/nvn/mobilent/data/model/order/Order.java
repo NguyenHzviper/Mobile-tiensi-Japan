@@ -39,6 +39,7 @@ public class Order implements Serializable {
     public Order() {
 
     }
+
     public Order(String id, String userId, String deliveryAddress, String buyDate, Object deliveryCancelDay, String phone, Boolean status, String recipientName, ArrayList<ListOrderItem> listOrderItem) {
         this.id = id;
         this.userId = userId;
@@ -137,9 +138,15 @@ public class Order implements Serializable {
 
     public long getTotal() {
         long total = 0;
-        for (ListOrderItem o : listOrderItem) {
-            total += o.getPrice() * o.getQuantity();
+
+        //BUG
+        if (listOrderItem != null) {
+            for (ListOrderItem item : listOrderItem) {
+                total += (long) item.getPrice() * item.getQuantity();
+            }
         }
         return total;
+
+
     }
 }

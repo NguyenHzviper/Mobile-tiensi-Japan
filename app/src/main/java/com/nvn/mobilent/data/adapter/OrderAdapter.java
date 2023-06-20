@@ -41,10 +41,12 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         TextView dateOder = convertView.findViewById(R.id.tvDate);
         TextView address = convertView.findViewById(R.id.tv_address);
         TextView statusOrder = convertView.findViewById(R.id.statusorder);
-        TextView price = convertView.findViewById(R.id.tv_price_order);
+        /*TextView price = convertView.findViewById(R.id.tv_price_order);*/
+        TextView cancelOrder = convertView.findViewById(R.id.cancelorder);
         Order order = orderArrayList.get(position);
         dateOder.setText(order.getBuyDate());
         address.setText(order.getDeliveryAddress());
+        /*price.setText(String.valueOf(order.getTotal()) );*/
 //        if (order.getStatus()){
 //            statusOrder.setText("Chưa xử lý");
 //            cancelOrder.setVisibility(View.VISIBLE);
@@ -52,14 +54,14 @@ public class OrderAdapter extends ArrayAdapter<Order> {
 //            statusOrder.setText("Đơn đã huỷ");
 //            cancelOrder.setVisibility(View.INVISIBLE);
 //        }
-//        cancelOrder.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                statusOrder.setText("Đơn đã huỷ");
-//                OrderActivity.cancelOrder(order.getId());
-//                cancelOrder.setVisibility(View.INVISIBLE);
-//            }
-//        });
+        cancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                statusOrder.setText("Đơn đã huỷ");
+               OrderActivity.cancelOrder(order.getId());
+                cancelOrder.setVisibility(View.INVISIBLE);
+           }
+        });
         return convertView;
     }
 }

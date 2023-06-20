@@ -106,12 +106,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:background="@drawable/bg_signup"
             android:gravity="center"
             android:onClick="onSignupClick"
             android:paddingVertical="10dp"
-            android:text="Đăng ký"
-            android:textColor="#fffcf2"
+            android:text="Chưa có tài khoản? Đăng ký"
+            android:textColor="#a86a24"
             android:textSize="18sp"
             android:textStyle="bold" />
 

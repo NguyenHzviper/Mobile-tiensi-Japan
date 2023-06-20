@@ -71,7 +71,7 @@
             app:layout_constraintStart_toEndOf="@id/tv_status_lb"
             app:layout_constraintTop_toTopOf="@id/tv_status_lb" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_price_order"
             android:layout_width="150dp"
             android:layout_height="46dp"
@@ -84,7 +84,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_status_lb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_date_lb"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0" />-->
 
         <TextView
             android:id="@+id/tv_address_lb"
@@ -121,27 +121,19 @@
             app:layout_constraintTop_toBottomOf="@id/tv_address" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/cancelorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="ĐẶT LẠI"
+            android:text="Hủy đơn"
             android:textColor="#2a9d8f"
             android:textSize="16sp"
             android:textStyle="bold"
+
             app:layout_constraintStart_toStartOf="@id/tv_status_lb"
             app:layout_constraintTop_toBottomOf="@id/seperate_history_order" />
 
-        <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:stepSize="0.6"
-            app:layout_constraintBottom_toBottomOf="@+id/textView7"
-            app:layout_constraintEnd_toEndOf="@+id/tv_price_order"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

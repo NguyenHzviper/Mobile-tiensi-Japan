@@ -139,13 +139,13 @@
                                 android:layout_marginRight="27dp"
                                 android:drawablePadding="10dp"
                                 android:hint="Giới tính"
-                                android:textSize="14dp" />
+                                android:textSize="14sp" />
 
                             <RadioButton
                                 android:id="@+id/rbnam"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginRight="20sp"
                                 android:text="Nam" />
 
                             <RadioButton
@@ -374,7 +374,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/loginViewsMargin"
-                        android:background="@drawable/bg_signin"
+                        android:background="#a86a24"
                         android:text="ĐĂNG KÝ"
                         android:textColor="@color/white" />
 
@@ -384,7 +384,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/loginViewsMargin"
-                        android:background="@drawable/bg_signup"
+                        android:background="#a86a24"
                         android:onClick="onLoginClick"
                         android:text="ĐĂNG NHẬP"
                         android:textColor="@color/white" />

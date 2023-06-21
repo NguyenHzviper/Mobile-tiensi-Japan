@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -230,13 +231,12 @@ public class OrderDetailActivity extends AppCompatActivity {
                         }
                         pdfDocument.close();
 
-                        Uri fileUri = FileProvider.getUriForFile(OrderDetailActivity.this, "com.nvn.homely.fileprovider", file);
+                        Uri fileUri = FileProvider.getUriForFile(getApplicationContext(), "com.nvn.homely.fileprovider", file);
 
                         Intent target = new Intent(Intent.ACTION_VIEW);
                         target.setDataAndType(fileUri, "application/pdf");
                         target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |
-                                Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         Intent intent = Intent.createChooser(target, "Open File");
 
@@ -244,7 +244,9 @@ public class OrderDetailActivity extends AppCompatActivity {
                             startActivity(intent);
                         } catch (ActivityNotFoundException e) {
                             // Instruct the user to install a PDF reader here, or handle the exception as desired
+                            Toast.makeText(OrderDetailActivity.this, "Please install a PDF reader application.", Toast.LENGTH_SHORT).show();
                         }
+
 
                     }
                 })

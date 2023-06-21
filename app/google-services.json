@@ -7,9 +7,46 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:899341205223:android:cb22cf46f0767fad572c42",
+        "android_client_info": {
+          "package_name": "com.nvn.homely"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899341205223-4qgeep04sm6ls3hm0tabu1bnikmqbn9f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nvn.homely",
+            "certificate_hash": "7a4c5ff565870099106adc6a1e432b514b9a412e"
+          }
+        },
+        {
+          "client_id": "899341205223-8j9cu5db93l71goheci03g4uem36cor7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChQejcQyvcafwQZlbgDju9gXCZruEQ010"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899341205223-3snldvv49cpg8l4tesj5vtjnapd7ral0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:899341205223:android:3e34687c8a6c9fa1572c42",
         "android_client_info": {
-          "package_name": "com.nvn.mobilent"
+          "package_name": "com.nvn.homely"
         }
       },
       "oauth_client": [
@@ -17,12 +54,12 @@
           "client_id": "899341205223-tujooqbn4vp74o4umnp5toqj97onj3nj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.nvn.mobilent",
+            "package_name": "com.nvn.homely",
             "certificate_hash": "7a4c5ff565870099106adc6a1e432b514b9a412e"
           }
         },
         {
-          "client_id": "899341205223-3snldvv49cpg8l4tesj5vtjnapd7ral0.apps.googleusercontent.com",
+          "client_id": "899341205223-8j9cu5db93l71goheci03g4uem36cor7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
